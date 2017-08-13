@@ -13,6 +13,7 @@ public class Elective implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String courseID;// 课程号
 	private String stuID;// 学号
+	private boolean flag;// 是否选课
 
 	public String getCourseID() {
 		return courseID;
@@ -30,18 +31,28 @@ public class Elective implements Serializable {
 		this.stuID = stuID;
 	}
 
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+
 	public Elective() {
 		super();
 	}
 
-	public Elective(String courseID, String stuID) {
+	public Elective(String courseID, String stuID, boolean b) {
 		super();
 		this.courseID = courseID;
 		this.stuID = stuID;
+		this.flag = b;
 	}
 
 	@Override
 	public String toString() {
 		return "Elective [courseID=" + courseID + ", stuID=" + stuID + "]";
 	}
+
 }

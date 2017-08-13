@@ -137,8 +137,10 @@ public class FileUtil {
 			e.printStackTrace();
 		} finally {
 			try {
-				in.close();
-				objectInputStream.close();
+				if (in != null)
+					in.close();
+				if (objectInputStream != null)
+					objectInputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -173,8 +175,10 @@ public class FileUtil {
 			e.printStackTrace();
 		} finally {
 			try {
-				in.close();
-				objectInputStream.close();
+				if (in != null)
+					in.close();
+				if (objectInputStream != null)
+					objectInputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -209,8 +213,10 @@ public class FileUtil {
 			e.printStackTrace();
 		} finally {
 			try {
-				in.close();
-				objectInputStream.close();
+				if (in != null)
+					in.close();
+				if (objectInputStream != null)
+					objectInputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -221,24 +227,17 @@ public class FileUtil {
 	/**
 	 * 删除指定课程对象文件以及选课对象文件
 	 * 
-	 * @param course
+	 * @param elective
 	 *            要删除的课程对象
 	 */
-	public static void deleteObjFile(Course course) {
-		String deleteID = course.getCourseID();
-		// 删除课程对象文件
-		File f = new File("src/com/gwhcool/studentcoursems/datafile/course/Course_" + deleteID + ".obj");
-		System.out.println(f.exists());
-		System.out.println(f.getName());
-		System.out.println(f.getAbsolutePath());
-
-		boolean b = f.delete();
-		System.out.println(b);
+	public static void deleteObjFile(Elective elective) {
+		String stuID = elective.getStuID();
+		String courseID = elective.getCourseID();
 		// 删除选课对象文件
 		File eleDir = new File("src/com/gwhcool/studentcoursems/datafile/elective");
 		File[] files = eleDir.listFiles();
 		for (File file : files) {
-			if (file.getName().contains(deleteID)) {
+			if (file.getName().contains(courseID + "_" + stuID)) {
 				System.out.println(file.getName());
 				file.delete();
 			}

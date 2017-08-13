@@ -113,7 +113,9 @@ public class CourseMangeWindow extends Window {
 				System.out.println("-----------------------------------------------------");
 			}
 			cms.printCourseByIndex(index);
-			System.out.println("=====================================================");
+			if (index != -1) {
+				System.out.println("=====================================================");
+			}
 			show(sc);
 		} else if ("5".equals(choose)) {
 			cms.printAllCourse();
