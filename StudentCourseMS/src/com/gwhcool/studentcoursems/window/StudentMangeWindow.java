@@ -16,7 +16,7 @@ import com.gwhcool.studentcoursems.service.StudentManageServiceImpl;
  * <li>按学号查询学生信息</li>
  * <li>按姓名查询学生信息</li>
  * <li>按班级查询学生信息</li>
- * <li>查询所有学生信息</li>
+ * <li>打印所有学生信息</li>
  * <li>返回上一级</li>
  * 
  * @author gwh
@@ -37,7 +37,7 @@ public class StudentMangeWindow extends Window {
 		System.out.println("| 4、按学号查询学生信息                             |");
 		System.out.println("| 5、按姓名查询学生信息                             |");
 		System.out.println("| 6、按班级查询学生信息                             |");
-		System.out.println("| 7、查询所有学生信息                                 |");
+		System.out.println("| 7、打印所有学生信息                                 |");
 		System.out.println("| 0、返回上一级                                             |");
 		System.out.println("|                         |");
 		System.out.println("|      版权所有   翻版必究                      |");

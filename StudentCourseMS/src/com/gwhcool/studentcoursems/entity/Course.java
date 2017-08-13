@@ -52,7 +52,7 @@ public class Course implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Course [courseID=" + courseID + ", courseName=" + courseName + ", courseDesc=" + courseDesc + "]";
+		return courseID + "\t\t" + courseName + "\t\t" + courseDesc;
 	}
 
 }

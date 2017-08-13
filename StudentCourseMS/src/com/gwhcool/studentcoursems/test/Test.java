@@ -8,6 +8,8 @@ import java.util.Set;
 import com.gwhcool.studentcoursems.entity.Course;
 import com.gwhcool.studentcoursems.entity.Elective;
 import com.gwhcool.studentcoursems.entity.Student;
+import com.gwhcool.studentcoursems.service.CourseManageService;
+import com.gwhcool.studentcoursems.service.CourseManageServiceImpl;
 import com.gwhcool.studentcoursems.service.StudentManageService;
 import com.gwhcool.studentcoursems.service.StudentManageServiceImpl;
 import com.gwhcool.studentcoursems.util.DBUtil;
@@ -21,9 +23,28 @@ import com.gwhcool.studentcoursems.util.FileUtil;
  */
 public class Test {
 	public static void main(String[] args) {
+
+		/* 增加课程信息 */
+		CourseManageService cms = new CourseManageServiceImpl();
+		cms.printAllCourse();
+
+		Course course = new Course("kc000123323", "组成原理", "组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理组成原理");
+		cms.addCourse(course);
+		/* 修改课程信息 */
+//		cms.updateCourse(4, course);
+		/* 删除课程信息 */
+//		cms.deleteCourse(1);
+		/* 查询课程索引 */
+		int index = cms.findCourseByID("asdasdsa11");
+		System.out.println(index);
+		/* 打印课程信息 */
+		cms.printCourseByIndex(index);
+		/* 打印全部课程信息 */
+		cms.printAllCourse();
+
 		/* 打印所有学生信息测试 */
-		StudentManageService sms = new StudentManageServiceImpl();
-		sms.printAllStudent();
+		// StudentManageService sms = new StudentManageServiceImpl();
+		// sms.printAllStudent();
 
 		/* 删除学生信息测试 */
 		// StudentManageService sms = new StudentManageServiceImpl();
