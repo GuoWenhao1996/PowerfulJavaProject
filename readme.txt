@@ -1,5 +1,5 @@
 2017-8-12 17:53:02
-【StudentCourseMS】中为控制台下的学生课程管理系统，项目初期架构为entity-window-service-util-data-start，其中数据是存在文件中的，以object存储，先将内存中的数据利用ObjectOutputStream流存入数据文件，然后以ObjectInputStream流将对象数据直接读取至内存中以list存储，利用list进行操作。项目开始时间为2017-8-12 17:59:22，目前暂未结束！
+【StudentCourseMS】中为控制台下的学生课程管理系统项目源码与本项目的API文档和一个可在命令行中运行的jar包，项目初期架构为entity-window-service-util-data-start，其中数据是存在文件中的，以object存储，先将内存中的数据利用ObjectOutputStream流存入数据文件，然后以ObjectInputStream流将对象数据直接读取至内存中以list存储，利用list进行操作。项目开始时间为2017-8-12 17:59:22，项目结束时间为2017-8-13 22:09:37。
 
 
 2017-8-12 17:41:19
