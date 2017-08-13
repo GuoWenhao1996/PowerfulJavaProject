@@ -7,6 +7,12 @@ import com.gwhcool.studentcoursems.entity.Course;
 import com.gwhcool.studentcoursems.entity.Elective;
 import com.gwhcool.studentcoursems.entity.Student;
 
+/**
+ * 数据库工具类，操作内存中的数据
+ * 
+ * @author gwh
+ * @version 1.1
+ */
 public class DBUtil {
 	private static DBUtil db = null;
 
@@ -35,24 +41,12 @@ public class DBUtil {
 		return studentList;
 	}
 
-	public void setStudentList(List<Student> studentList) {
-		this.studentList = studentList;
-	}
-
 	public List<Course> getCourseList() {
 		return courseList;
 	}
 
-	public void setCourseList(List<Course> courseList) {
-		this.courseList = courseList;
-	}
-
 	public List<Elective> getElectiveList() {
 		return electiveList;
-	}
-
-	public void setElectiveList(List<Elective> electiveList) {
-		this.electiveList = electiveList;
 	}
 
 }

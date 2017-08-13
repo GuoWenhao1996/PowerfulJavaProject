@@ -3,27 +3,29 @@ package com.gwhcool.studentcoursems.window;
 import java.util.Scanner;
 
 /**
- * 课程管理窗口<br>
+ * 选课管理窗口<br>
  * 界面功能:
- * <li>添加课程</li>
- * <li>删除课程</li>
- * <li>修改课程信息</li>
+ * <li>通过学号查询选课情况</li>
+ * <li>通过课程号打印学生信息</li>
+ * <li>添加选这门课程的学生</li>
+ * <li>删除选择这门课程的学生</li>
  * <li>返回上一级</li>
  * 
  * @author gwh
  * @since 1.2
  *
  */
-public class CourseMangeWindow extends Window {
+public class ElectiveMangeWindow extends Window {
 
 	@Override
 	public void show(Scanner sc) {
 		System.out.println("***************************");
-		System.out.println("|          课程管理                             |");
+		System.out.println("|          选课管理                             |");
 		System.out.println("|                         |");
-		System.out.println("| 1、添加课程                                                 |");
-		System.out.println("| 2、删除课程                                                 |");
-		System.out.println("| 3、修改课程信息                                         |");
+		System.out.println("| 1、通过学号查询选课情况                         |");
+		System.out.println("| 2、通过课程号打印学生信息                     |");
+		System.out.println("| 3、添加选这门课程的学生                         |");
+		System.out.println("| 4、删除选择这门课程的学生                     |");
 		System.out.println("| 0、返回上一级                                             |");
 		System.out.println("|                         |");
 		System.out.println("|      版权所有   翻版必究                      |");

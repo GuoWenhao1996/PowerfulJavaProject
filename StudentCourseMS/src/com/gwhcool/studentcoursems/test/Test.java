@@ -3,6 +3,7 @@ package com.gwhcool.studentcoursems.test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.gwhcool.studentcoursems.entity.Course;
 import com.gwhcool.studentcoursems.entity.Elective;
@@ -20,6 +21,41 @@ import com.gwhcool.studentcoursems.util.FileUtil;
  */
 public class Test {
 	public static void main(String[] args) {
+		/* 打印所有学生信息测试 */
+		StudentManageService sms = new StudentManageServiceImpl();
+		sms.printAllStudent();
+
+		/* 删除学生信息测试 */
+		// StudentManageService sms = new StudentManageServiceImpl();
+		// int index = sms.findStudentByID("zr2017080012");
+		// System.out.println(index);
+		// sms.deleteStudent(index);
+		// sms.printStudentByIndex(index);
+
+		/* 修改学生信息测试 */
+		// StudentManageService sms = new StudentManageServiceImpl();
+		// Set<Integer> sets = sms.findStudentByName("张三");
+		// sms.printStudentByIndex(sets);
+		// sms.updateStudent(0, new Student("zr2017080001", "张三", "男", 22, "Java一班"));
+		// sets = sms.findStudentByName("张三");
+		// sms.printStudentByIndex(sets);
+
+		/* 按班级查找测试 */
+		// StudentManageService sms = new StudentManageServiceImpl();
+		// Set<Integer> sets = sms.findStudentByClassName("Java一班");
+		// sms.printStudentByIndex(sets);
+
+		/* 按姓名查找测试 */
+		// StudentManageService sms = new StudentManageServiceImpl();
+		// Set<Integer> sets=sms.findStudentByName("测试学生");
+		// sms.printStudentByIndex(sets);
+
+		/* 按学号查找测试 */
+		// StudentManageService sms = new StudentManageServiceImpl();
+		// int index = sms.findStudentByID("zr2017080001");
+		// System.out.println(index);
+		// sms.printStudentByIndex(index);
+
 		/* 学号编码测试 */
 		// LocalDate ld = LocalDate.now();
 		// String month = "";
@@ -30,21 +66,24 @@ public class Test {
 		// String newStudentID = "zr" + ld.getYear() + month + "0001";
 		// System.out.println(newStudentID);
 
-		/* StudentManageService接口添加学生测试 */
-		DBUtil db = DBUtil.getInstance();
-		List<Student> list1 = db.getStudentList();
-		for (Student student : list1) {
-			System.out.println(student);
-		}
-		//
-		Student student = new Student("12312321", "测试学生", "男", 88, "计科三班");
-		StudentManageService sms = new StudentManageServiceImpl();
-		sms.addStudent(student);
-		System.out.println("===========");
-		list1 = db.getStudentList();
-		for (Student s : list1) {
-			System.out.println(s);
-		}
+		/* 添加学生测试 */
+		// DBUtil db = DBUtil.getInstance();
+		// List<Student> list1 = db.getStudentList();
+		// for (Student student : list1) {
+		// System.out.println(student);
+		// }
+		// Student student = new Student("12312321", "测试学生3eqweqweasds", "男", 24,
+		// "Java一班");
+		// StudentManageService sms = new StudentManageServiceImpl();
+		// sms.addStudent(student);
+		// // for(int i=0;i<100;i++) {
+		// // sms.addStudent(student);
+		// // }
+		// System.out.println("===========");
+		// list1 = db.getStudentList();
+		// for (Student s : list1) {
+		// System.out.println(s);
+		// }
 
 		/* DBUtil对学生、课程、选课List的修改 */
 		// DBUtil db = DBUtil.getInstance();

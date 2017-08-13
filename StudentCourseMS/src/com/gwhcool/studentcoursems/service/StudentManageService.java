@@ -1,5 +1,7 @@
 package com.gwhcool.studentcoursems.service;
 
+import java.util.Set;
+
 import com.gwhcool.studentcoursems.entity.Student;
 
 /**
@@ -49,31 +51,38 @@ public interface StudentManageService {
 	 * 
 	 * @param stuName
 	 *            学生姓名
-	 * @return 学生索引数组
+	 * @return 学生索引的Set集合
 	 */
-	public int[] findStudentByName(String stuName);
+	public Set<Integer> findStudentByName(String stuName);
 
 	/**
 	 * 根据班级名称查找学生索引
 	 * 
 	 * @param className
 	 *            班级名称
-	 * @return 学生索引数组
+	 * @return 学生索引的Set集合
 	 */
-	public int[] findStudentByClassName(String className);
+	public Set<Integer> findStudentByClassName(String className);
 
 	/**
 	 * 根据索引打印学生信息
 	 * 
 	 * @param index
+	 *            学生索引
 	 */
 	public void printStudentByIndex(int index);
 
 	/**
-	 * 根据索引数组打印学生信息
+	 * 根据学生索引的Set集合打印学生信息
 	 * 
 	 * @param indexs
+	 *            学生索引的Set集合
 	 */
-	public void printStudentByIndex(int[] indexs);
+	public void printStudentByIndex(Set<Integer> indexs);
+
+	/**
+	 * 打印出所有的学生信息
+	 */
+	public void printAllStudent();
 
 }
