@@ -72,41 +72,41 @@ public class MainFrame {
 		dvdContentPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.setBounds(0, 54, 826, 423);
 		dvdPanel.add(dvdContentPanel);
-		CardLayout dvdCardLayout=new CardLayout(0, 0);
+		CardLayout dvdCardLayout = new CardLayout(0, 0);
 		dvdContentPanel.setLayout(dvdCardLayout);
 
 		JPanel lookDVDPanel = new JPanel();
 		lookDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(lookDVDPanel, "name_lookDVDPanel");
-		
+
 		JLabel label = new JLabel("11111");
 		lookDVDPanel.add(label);
 
 		JPanel lendDVDPanel = new JPanel();
 		lendDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(lendDVDPanel, "name_lendDVDPanel");
-		
+
 		JLabel label_1 = new JLabel("22222");
 		lendDVDPanel.add(label_1);
 
 		JPanel returnDVDPanel = new JPanel();
 		returnDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(returnDVDPanel, "name_returnDVDPanel");
-		
+
 		JLabel label_2 = new JLabel("33333");
 		returnDVDPanel.add(label_2);
 
 		JPanel addDVDPanel = new JPanel();
 		addDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(addDVDPanel, "name_addDVDPanel");
-		
+
 		JLabel lblNewLabel = new JLabel("44444");
 		addDVDPanel.add(lblNewLabel);
 
 		JPanel deleteDVDPanel = new JPanel();
 		deleteDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(deleteDVDPanel, "name_deleteDVDPanel");
-		
+
 		JLabel label_3 = new JLabel("5555555");
 		deleteDVDPanel.add(label_3);
 
@@ -141,22 +141,22 @@ public class MainFrame {
 			}
 		});
 		lookDVDButton.setBackground(new Color(191, 205, 219));
-		lookDVDButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+		lookDVDButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		dvdMenuPanel.add(lookDVDButton);
 
 		lendDVDButton.setBackground(SystemColor.inactiveCaptionBorder);
-		lendDVDButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+		lendDVDButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		dvdMenuPanel.add(lendDVDButton);
 
-		returnDVDButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+		returnDVDButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		returnDVDButton.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdMenuPanel.add(returnDVDButton);
 
-		addDVDButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+		addDVDButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		addDVDButton.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdMenuPanel.add(addDVDButton);
 
-		deleteDVDButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+		deleteDVDButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		deleteDVDButton.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdMenuPanel.add(deleteDVDButton);
 
@@ -164,59 +164,164 @@ public class MainFrame {
 		employeePanel.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPanel.add(employeePanel, "name_employeePanel");
 		employeePanel.setLayout(null);
-		
+
 		JPanel employeeMenuPanel = new JPanel();
 		employeeMenuPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeMenuPanel.setBounds(10, 0, 806, 44);
 		employeePanel.add(employeeMenuPanel);
 		employeeMenuPanel.setLayout(new GridLayout(0, 4, 0, 0));
-		
+
+		JPanel employeeContentPanel = new JPanel();
+		employeeContentPanel.setBackground(SystemColor.inactiveCaptionBorder);
+		employeeContentPanel.setBounds(0, 54, 826, 423);
+		employeePanel.add(employeeContentPanel);
+		CardLayout employeeCardLayout = new CardLayout(0, 0);
+		employeeContentPanel.setLayout(employeeCardLayout);
+
 		JButton lookEmployeeButton = new JButton("\u67E5\u8BE2\u5458\u5DE5");
-		lookEmployeeButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+		JButton addEmployeeButton = new JButton("\u65B0\u589E\u5458\u5DE5");
+		JButton updateEmployeeButton = new JButton("\u4FEE\u6539\u5BC6\u7801");
+		JButton deleteEmployeeButton = new JButton("\u5220\u9664\u5458\u5DE5");
+		lookEmployeeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				employeeCardLayout.show(employeeContentPanel, "name_lookEmployeePanel");
+				changeBackground(lookEmployeeButton, addEmployeeButton, updateEmployeeButton, deleteEmployeeButton);
+			}
+		});
+		lookEmployeeButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		lookEmployeeButton.setBackground(SystemColor.inactiveCaption);
 		employeeMenuPanel.add(lookEmployeeButton);
-		
-		JButton addEmployeeButton = new JButton("\u65B0\u589E\u5458\u5DE5");
-		addEmployeeButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+
+		addEmployeeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				employeeCardLayout.show(employeeContentPanel, "name_addEmployeePanel");
+				changeBackground(addEmployeeButton, lookEmployeeButton, updateEmployeeButton, deleteEmployeeButton);
+			}
+		});
+		addEmployeeButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		addEmployeeButton.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeMenuPanel.add(addEmployeeButton);
-		
-		JButton updateEmployeeButton = new JButton("\u4FEE\u6539\u5BC6\u7801");
-		updateEmployeeButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+
+		updateEmployeeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				employeeCardLayout.show(employeeContentPanel, "name_updateEmployeePanel");
+				changeBackground(updateEmployeeButton, addEmployeeButton, lookEmployeeButton, deleteEmployeeButton);
+			}
+		});
+		updateEmployeeButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		updateEmployeeButton.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeMenuPanel.add(updateEmployeeButton);
-		
-		JButton deleteEmployeeButton = new JButton("\u5220\u9664\u5458\u5DE5");
-		deleteEmployeeButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+
+		deleteEmployeeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				employeeCardLayout.show(employeeContentPanel, "name_deleteEmployeePanel");
+				changeBackground(deleteEmployeeButton, addEmployeeButton, lookEmployeeButton, updateEmployeeButton);
+			}
+		});
+		deleteEmployeeButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		deleteEmployeeButton.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeMenuPanel.add(deleteEmployeeButton);
+
+		JPanel lookEmployeePanel = new JPanel();
+		lookEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
+		employeeContentPanel.add(lookEmployeePanel, "name_lookEmployeePanel");
+
+		JLabel label_4 = new JLabel("11111");
+		lookEmployeePanel.add(label_4);
+
+		JPanel addEmployeePanel = new JPanel();
+		addEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
+		employeeContentPanel.add(addEmployeePanel, "name_addEmployeePanel");
+
+		JLabel label_5 = new JLabel("22222");
+		addEmployeePanel.add(label_5);
+
+		JPanel updateEmployeePanel = new JPanel();
+		updateEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
+		employeeContentPanel.add(updateEmployeePanel, "name_updateEmployeePanel");
+
+		JLabel label_6 = new JLabel("33333");
+		updateEmployeePanel.add(label_6);
+
+		JPanel deleteEmployeePanel = new JPanel();
+		deleteEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
+		employeeContentPanel.add(deleteEmployeePanel, "name_deleteEmployeePanel");
+
+		JLabel label_7 = new JLabel("44444");
+		deleteEmployeePanel.add(label_7);
 
 		JPanel customPanel = new JPanel();
 		customPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPanel.add(customPanel, "name_customPanel");
 		customPanel.setLayout(null);
-		
+
 		JPanel customMenuPanel = new JPanel();
 		customMenuPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		customMenuPanel.setBounds(10, 0, 806, 44);
 		customPanel.add(customMenuPanel);
 		customMenuPanel.setLayout(new GridLayout(0, 3, 0, 0));
-		
+
+		JPanel customContentPanel = new JPanel();
+		customContentPanel.setBackground(SystemColor.inactiveCaptionBorder);
+		customContentPanel.setBounds(0, 54, 826, 423);
+		customPanel.add(customContentPanel);
+		CardLayout customCardLayout = new CardLayout(0, 0);
+		customContentPanel.setLayout(customCardLayout);
+
 		JButton lookCustomButton = new JButton("\u67E5\u8BE2\u5BA2\u6237");
-		lookCustomButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+		JButton addCustomButton = new JButton("\u65B0\u589E\u5BA2\u6237");
+		JButton deleteCustomButton = new JButton("\u5220\u9664\u5BA2\u6237");
+		lookCustomButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				customCardLayout.show(customContentPanel, "name_lookCustomPanel");
+				changeBackground(lookCustomButton, addCustomButton, deleteCustomButton);
+			}
+		});
+		lookCustomButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		lookCustomButton.setBackground(SystemColor.inactiveCaption);
 		customMenuPanel.add(lookCustomButton);
-		
-		JButton addCustomButton = new JButton("\u65B0\u589E\u5BA2\u6237");
-		addCustomButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+
+		addCustomButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				customCardLayout.show(customContentPanel, "name_addCustomPanel");
+				changeBackground(addCustomButton, lookCustomButton, deleteCustomButton);
+			}
+		});
+		addCustomButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		addCustomButton.setBackground(SystemColor.inactiveCaptionBorder);
 		customMenuPanel.add(addCustomButton);
-		
-		JButton deleteCustomButton = new JButton("\u5220\u9664\u5BA2\u6237");
-		deleteCustomButton.setFont(new Font("”◊‘≤", Font.BOLD, 18));
+
+		deleteCustomButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				customCardLayout.show(customContentPanel, "name_deleteCustomPanel");
+				changeBackground(deleteCustomButton, lookCustomButton, addCustomButton);
+			}
+		});
+		deleteCustomButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 18));
 		deleteCustomButton.setBackground(SystemColor.inactiveCaptionBorder);
 		customMenuPanel.add(deleteCustomButton);
 
+		JPanel lookCustomPanel = new JPanel();
+		lookCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
+		customContentPanel.add(lookCustomPanel, "name_lookCustomPanel");
+		
+		JLabel label_8 = new JLabel("111");
+		lookCustomPanel.add(label_8);
+
+		JPanel addCustomPanel = new JPanel();
+		addCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
+		customContentPanel.add(addCustomPanel, "name_addCustomPanel");
+		
+		JLabel label_9 = new JLabel("222");
+		addCustomPanel.add(label_9);
+
+		JPanel deleteCustomPanel = new JPanel();
+		deleteCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
+		customContentPanel.add(deleteCustomPanel, "name_deleteCustomPanel");
+		
+		JLabel label_10 = new JLabel("333");
+		deleteCustomPanel.add(label_10);
+		
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBounds(10, 10, 826, 63);
 		mainFrame.getContentPane().add(menuPanel);
@@ -235,7 +340,7 @@ public class MainFrame {
 				changeBackground(dvdManageButton, employeeManageButton, customManageButton);
 			}
 		});
-		dvdManageButton.setFont(new Font("”◊‘≤", Font.BOLD, 24));
+		dvdManageButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 24));
 		menuPanel.add(dvdManageButton);
 
 		employeeManageButton.addActionListener(new ActionListener() {
@@ -244,7 +349,7 @@ public class MainFrame {
 				changeBackground(employeeManageButton, dvdManageButton, customManageButton);
 			}
 		});
-		employeeManageButton.setFont(new Font("”◊‘≤", Font.BOLD, 24));
+		employeeManageButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 24));
 		menuPanel.add(employeeManageButton);
 
 		customManageButton.addActionListener(new ActionListener() {
@@ -253,7 +358,7 @@ public class MainFrame {
 				changeBackground(customManageButton, employeeManageButton, dvdManageButton);
 			}
 		});
-		customManageButton.setFont(new Font("”◊‘≤", Font.BOLD, 24));
+		customManageButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 24));
 		menuPanel.add(customManageButton);
 
 		JPanel panel = new JPanel();
@@ -264,28 +369,28 @@ public class MainFrame {
 		JButton logoffButton = new JButton("\u6CE8\u9500");
 		logoffButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int choose = JOptionPane.showConfirmDialog(null, "◊¢œ˙∫Û∑µªÿµ«¬º“≥√Ê£¨ «∑Ò◊¢œ˙£ø", "Ã· æ", JOptionPane.YES_NO_OPTION);
+				int choose = JOptionPane.showConfirmDialog(null, "Ê≥®ÈîÄÂêéËøîÂõûÁôªÂΩïÈ°µÈù¢ÔºåÊòØÂê¶Ê≥®ÈîÄÔºü", "ÊèêÁ§∫", JOptionPane.YES_NO_OPTION);
 				if (choose == 0) {
 					mainFrame.setVisible(false);
 					new Login();
 				}
 			}
 		});
-		logoffButton.setFont(new Font("”◊‘≤", Font.BOLD, 24));
+		logoffButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 24));
 		logoffButton.setBackground(SystemColor.inactiveCaptionBorder);
 		panel.add(logoffButton);
 
 		JButton exitButton = new JButton("\u9000\u51FA");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int choose = JOptionPane.showConfirmDialog(null, " «∑ÒÕÀ≥ˆœµÕ≥£ø", "Ã· æ", JOptionPane.YES_NO_OPTION);
+				int choose = JOptionPane.showConfirmDialog(null, "ÊòØÂê¶ÈÄÄÂá∫Á≥ªÁªüÔºü", "ÊèêÁ§∫", JOptionPane.YES_NO_OPTION);
 				if (choose == 0) {
-					JOptionPane.showMessageDialog(null, "œµÕ≥º¥Ω´∞≤»´ÕÀ≥ˆ£°", "Ã· æ", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Á≥ªÁªüÂç≥Â∞ÜÂÆâÂÖ®ÈÄÄÂá∫ÔºÅ", "ÊèêÁ§∫", JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
 				}
 			}
 		});
-		exitButton.setFont(new Font("”◊‘≤", Font.BOLD, 24));
+		exitButton.setFont(new Font("ÂπºÂúÜ", Font.BOLD, 24));
 		exitButton.setBackground(SystemColor.inactiveCaptionBorder);
 		panel.add(exitButton);
 		menuPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { logoffButton, dvdManageButton,
@@ -298,12 +403,12 @@ public class MainFrame {
 	}
 
 	/**
-	 * –ﬁ∏ƒJButtonµƒ±≥æ∞—’…´
+	 * ÊîπÂèòJButtonÁöÑËÉåÊôØÈ¢úËâ≤
 	 * 
 	 * @param button
-	 *            “™∏ƒŒ™—°÷–…´µƒbutton
+	 *            Ë¶ÅÊîπÂèòÁöÑbutton
 	 * @param jButtons
-	 *            ∏ƒŒ™ƒ¨»œ…´µƒbutton
+	 *            ÈªòËÆ§Ëâ≤ÁöÑbutton
 	 */
 	private static void changeBackground(JButton button, JButton... jButtons) {
 		button.setBackground(new Color(191, 205, 219));

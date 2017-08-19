@@ -65,12 +65,12 @@ public class Login {
 		loginFrame.setResizable(false);
 		
 		JLabel label = new JLabel("\u5458\u5DE5\u7F16\u53F7\uFF1A");
-		label.setFont(new Font("Ó×Ô²", Font.BOLD, 16));
+		label.setFont(new Font("å¹¼åœ†", Font.BOLD, 16));
 		label.setBounds(113, 93, 91, 29);
 		loginFrame.getContentPane().add(label);
 
 		usernameTextField = new JTextField();
-		usernameTextField.setFont(new Font("Ó×Ô²", Font.BOLD, 16));
+		usernameTextField.setFont(new Font("å¹¼åœ†", Font.BOLD, 16));
 		usernameTextField.setBounds(197, 97, 133, 21);
 		usernameTextField.setColumns(10);
 		usernameTextField.addKeyListener(new KeyAdapter() {
@@ -86,7 +86,7 @@ public class Login {
 		loginFrame.getContentPane().add(usernameTextField);
 
 		JLabel label_1 = new JLabel("\u767B\u5F55\u5BC6\u7801\uFF1A");
-		label_1.setFont(new Font("Ó×Ô²", Font.BOLD, 16));
+		label_1.setFont(new Font("å¹¼åœ†", Font.BOLD, 16));
 		label_1.setBounds(113, 131, 91, 29);
 		loginFrame.getContentPane().add(label_1);
 
@@ -100,32 +100,32 @@ public class Login {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (usernameTextField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Ô±¹¤±àºÅ²»ÄÜÎª¿Õ£¡", "ÌáÊ¾", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "ç”¨æˆ·åä¸èƒ½ä¸ºç©ºï¼", "æç¤º", JOptionPane.WARNING_MESSAGE);
 				} else if (passwordTextField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "ÃÜÂë²»ÄÜÎª¿Õ£¡", "ÌáÊ¾", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "å¯†ç ä¸èƒ½ä¸ºç©ºï¼", "æç¤º", JOptionPane.WARNING_MESSAGE);
 				} else {
 					String username = usernameTextField.getText();
 					String password = passwordTextField.getText();
 					if (username.equals("111")) {
-						JOptionPane.showMessageDialog(null, "ÒÑÀëÖ°Ô±¹¤²»ÄÜµÇÂ¼£¡", "ÌáÊ¾", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "å·²ç¦»èŒå‘˜å·¥ä¸èƒ½ç™»å½•ï¼", "æç¤º", JOptionPane.WARNING_MESSAGE);
 					} else if (password.equals("222")) {
-						JOptionPane.showMessageDialog(null, "µÇÂ¼³É¹¦£¡", "ÌáÊ¾", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ç™»å½•æˆåŠŸï¼", "æç¤º", JOptionPane.INFORMATION_MESSAGE);
 						loginFrame.setVisible(false);
 						new MainFrame();
 					} else {
-						JOptionPane.showMessageDialog(null, "µÇÂ¼Ê§°Ü£¬ÇëÖØÊÔ£¡", "ÌáÊ¾", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ç™»å½•å¤±è´¥ï¼Œè¯·é‡è¯•ï¼", "æç¤º", JOptionPane.ERROR_MESSAGE);
 						passwordTextField.setText("");
 					}
 				}
 			}
 		});
-		loginButton.setFont(new Font("Ó×Ô²", Font.BOLD, 24));
+		loginButton.setFont(new Font("å¹¼åœ†", Font.BOLD, 24));
 		loginButton.setBounds(180, 186, 110, 29);
 		loginFrame.getContentPane().add(loginButton);
 
 		JLabel lblNewLabel = new JLabel("\u6B22\u8FCE\u4F7F\u7528DVD\u7BA1\u7406\u7CFB\u7EDF");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Ó×Ô²", Font.BOLD, 24));
+		lblNewLabel.setFont(new Font("å¹¼åœ†", Font.BOLD, 24));
 		lblNewLabel.setBounds(0, 30, 434, 42);
 		loginFrame.getContentPane().add(lblNewLabel);
 		loginFrame.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(
