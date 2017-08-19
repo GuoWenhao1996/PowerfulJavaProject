@@ -12,10 +12,16 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import com.gwhcool.dvdms.service.EmployeeService;
+import com.gwhcool.dvdms.service.impl.EmployeeServiceImpl;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.Color;
@@ -57,11 +63,20 @@ public class Login {
 		loginFrame.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
 		loginFrame.setTitle("\u767B\u5F55                                 DVD\u7BA1\u7406\u7CFB\u7EDF");
 		loginFrame.setBounds(100, 100, 450, 300);
-		loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		loginFrame.getContentPane().setLayout(null);
 		loginFrame.setLocationRelativeTo(null);
 		loginFrame.setResizable(false);
-		
+		loginFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		loginFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				int choose = JOptionPane.showConfirmDialog(null, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
+				if (choose == 0) {
+					JOptionPane.showMessageDialog(null, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					System.exit(0);
+				}
+			}
+		});
+
 		JLabel label = new JLabel("\u5458\u5DE5\u7F16\u53F7\uFF1A");
 		label.setFont(new Font("幼圆", Font.BOLD, 16));
 		label.setBounds(113, 93, 91, 29);
@@ -102,17 +117,22 @@ public class Login {
 				} else if (passwordTextField.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "密码不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
 				} else {
-					String username = usernameTextField.getText();
+					int id = Integer.parseInt(usernameTextField.getText());
 					String password = passwordTextField.getText();
-					if (username.equals("111")) {
+					EmployeeService es = new EmployeeServiceImpl();
+					int state = es.login(id, password);
+					if (state == 2) {
 						JOptionPane.showMessageDialog(null, "已离职员工不能登录！", "提示", JOptionPane.WARNING_MESSAGE);
-					} else if (password.equals("222")) {
+					} else if (state == 1) {
 						JOptionPane.showMessageDialog(null, "登录成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 						loginFrame.setVisible(false);
 						new MainFrame();
-					} else {
+					} else if (state == 0) {
 						JOptionPane.showMessageDialog(null, "登录失败，请重试！", "提示", JOptionPane.ERROR_MESSAGE);
 						passwordTextField.setText("");
+					} else {
+						JOptionPane.showMessageDialog(null, "服务器配置错误，请联系管理员！\n tel：185 8148 5921", "抱歉",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

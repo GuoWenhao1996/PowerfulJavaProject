@@ -12,10 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
+import javax.swing.JTable;
 
 public class MainFrame {
 
@@ -37,7 +40,18 @@ public class MainFrame {
 		mainFrame.setTitle(
 				"\u4E3B\u754C\u9762                                                                             DVD\u7BA1\u7406\u7CFB\u7EDF");
 		mainFrame.setBounds(300, 500, 852, 600);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				int choose = JOptionPane.showConfirmDialog(null, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
+				if (choose == 0) {
+					JOptionPane.showMessageDialog(null, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					System.exit(0);
+				}else{
+					mainFrame.setVisible(true);
+				}
+			}
+		});
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setResizable(false);
 		mainFrame.getContentPane().setLayout(null);
