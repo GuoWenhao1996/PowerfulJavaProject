@@ -16,8 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 
 public class MainFrame {
 
@@ -304,24 +302,24 @@ public class MainFrame {
 		JPanel lookCustomPanel = new JPanel();
 		lookCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		customContentPanel.add(lookCustomPanel, "name_lookCustomPanel");
-		
+
 		JLabel label_8 = new JLabel("111");
 		lookCustomPanel.add(label_8);
 
 		JPanel addCustomPanel = new JPanel();
 		addCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		customContentPanel.add(addCustomPanel, "name_addCustomPanel");
-		
+
 		JLabel label_9 = new JLabel("222");
 		addCustomPanel.add(label_9);
 
 		JPanel deleteCustomPanel = new JPanel();
 		deleteCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		customContentPanel.add(deleteCustomPanel, "name_deleteCustomPanel");
-		
+
 		JLabel label_10 = new JLabel("333");
 		deleteCustomPanel.add(label_10);
-		
+
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBounds(10, 10, 826, 63);
 		mainFrame.getContentPane().add(menuPanel);
