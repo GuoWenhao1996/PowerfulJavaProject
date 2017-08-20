@@ -26,22 +26,28 @@ import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import com.gwhcool.dvdms.entity.Custom;
 import com.gwhcool.dvdms.entity.DVD;
+import com.gwhcool.dvdms.entity.Employee;
+import com.gwhcool.dvdms.service.CustomService;
 import com.gwhcool.dvdms.service.DVDService;
+import com.gwhcool.dvdms.service.EmployeeService;
+import com.gwhcool.dvdms.service.impl.CustomServiceImpl;
 import com.gwhcool.dvdms.service.impl.DVDServiceImpl;
+import com.gwhcool.dvdms.service.impl.EmployeeServiceImpl;
 import com.gwhcool.dvdms.util.MySystemUtil;
 
 import java.awt.Component;
-import java.awt.Dimension;
 
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
 import javax.swing.JTable;
 
 public class MainFrame {
 
 	private DVDService ds = new DVDServiceImpl();
+	private EmployeeService es = new EmployeeServiceImpl();
+	private CustomService cs = new CustomServiceImpl();
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private JFrame mainFrame;
@@ -50,8 +56,29 @@ public class MainFrame {
 
 	private JTable dvdTable;
 	private JScrollPane dvdScrollpane = new JScrollPane();
+	@SuppressWarnings("rawtypes")
 	private Vector dvdRowData = new Vector();
+	@SuppressWarnings("rawtypes")
 	private Vector dvdColumName = new Vector();
+
+	private JTable employeeTable;
+	private JScrollPane employeeScrollpane = new JScrollPane();
+	@SuppressWarnings("rawtypes")
+	private Vector employeeRowData = new Vector();
+	@SuppressWarnings("rawtypes")
+	private Vector employeeColumName = new Vector();
+
+	private JTable customTable;
+	private JScrollPane customScrollpane = new JScrollPane();
+	@SuppressWarnings("rawtypes")
+	private Vector customRowData = new Vector();
+	@SuppressWarnings("rawtypes")
+	private Vector customColumName = new Vector();
+
+	private JTextField employeeIdTextField;
+	private JTextField employeeNameTextField;
+	private JTextField customIdTextField;
+	private JTextField customNameTextField;
 
 	/**
 	 * Create the application.
@@ -143,13 +170,14 @@ public class MainFrame {
 
 		JLabel lblDvd_1 = new JLabel("DVD名称：");
 		lblDvd_1.setFont(new Font("幼圆", Font.PLAIN, 18));
-		lblDvd_1.setBounds(339, 1, 81, 30);
+		lblDvd_1.setBounds(339, 2, 81, 30);
 		lookDVDPanel.add(lblDvd_1);
 
 		JButton lookDvdContentbutton = new JButton("查询");
 		lookDvdContentbutton.setBounds(597, 0, 93, 28);
 		lookDVDPanel.add(lookDvdContentbutton);
 		lookDvdContentbutton.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
 			public void actionPerformed(ActionEvent e) {
 				dvdRowData.clear();
 				dvdColumName.clear();
@@ -174,6 +202,7 @@ public class MainFrame {
 				}
 
 				for (DVD dvd : dvds) {
+					@SuppressWarnings("rawtypes")
 					Vector vNext = new Vector();
 					vNext.add(dvd.getId());
 					vNext.add(dvd.getName());
@@ -211,6 +240,8 @@ public class MainFrame {
 				dvdScrollpane.add(dvdTable);
 				dvdScrollpane.setViewportView(dvdTable);
 				lookDVDPanel.add(dvdScrollpane);
+				JOptionPane.showMessageDialog(null, "查询成功，共查出【" + dvds.size() + "】条记录！", "提示",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		lookDvdContentbutton.setFont(new Font("幼圆", Font.BOLD, 18));
@@ -359,9 +390,103 @@ public class MainFrame {
 		JPanel lookEmployeePanel = new JPanel();
 		lookEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeContentPanel.add(lookEmployeePanel, "name_lookEmployeePanel");
+		lookEmployeePanel.setLayout(null);
 
-		JLabel label_4 = new JLabel("11111");
-		lookEmployeePanel.add(label_4);
+		JLabel lblEmployee = new JLabel("员工工号：");
+		lblEmployee.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblEmployee.setBounds(125, 2, 90, 30);
+		lookEmployeePanel.add(lblEmployee);
+
+		employeeIdTextField = new JTextField();
+		employeeIdTextField.setColumns(10);
+		employeeIdTextField.setBounds(211, 7, 109, 21);
+		lookEmployeePanel.add(employeeIdTextField);
+
+		employeeNameTextField = new JTextField();
+		employeeNameTextField.setColumns(10);
+		employeeNameTextField.setBounds(423, 7, 109, 21);
+		lookEmployeePanel.add(employeeNameTextField);
+
+		JLabel lblEmployee_1 = new JLabel("员工姓名：");
+		lblEmployee_1.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblEmployee_1.setBounds(339, 2, 90, 30);
+		lookEmployeePanel.add(lblEmployee_1);
+
+		JButton lookEmployeeContentbuttonButton = new JButton("查询");
+		lookEmployeeContentbuttonButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
+			public void actionPerformed(ActionEvent e) {
+				employeeRowData.clear();
+				employeeColumName.clear();
+				employeeColumName.add("工号");
+				employeeColumName.add("姓名");
+				employeeColumName.add("性别");
+				employeeColumName.add("入职时间");
+				employeeColumName.add("离职时间");
+				List<Employee> employees = new LinkedList<>();
+				if (employeeIdTextField.getText().isEmpty()) {
+					if (employeeNameTextField.getText().isEmpty()) {
+						// 查全部
+						employees = es.getALLEmployee();
+					} else {
+						String name = employeeNameTextField.getText();
+						employees = es.getEmployeeByName(name);
+					}
+				} else {
+					int id = Integer.parseInt(employeeIdTextField.getText());
+					employees = es.getEmployeeByid(id);
+				}
+
+				for (Employee employee : employees) {
+					@SuppressWarnings("rawtypes")
+					Vector vNext = new Vector();
+					vNext.add(employee.getId());
+					vNext.add(employee.getName());
+					vNext.add(employee.getSex());
+					String timestr;
+					if (employee.getJointime() != null) {
+						timestr = sdf.format(employee.getJointime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					if (employee.getLeavetime() != null) {
+						timestr = sdf.format(employee.getLeavetime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					employeeRowData.add(vNext);
+				}
+				employeeTable = new JTable(employeeRowData, employeeColumName);
+				employeeTable.setBackground(SystemColor.info);
+				employeeTable.setBounds(10, 36, 806, 377);
+				employeeTable.setFont(new Font("幼圆", Font.PLAIN, 14));
+				employeeTable.setEnabled(false);
+				employeeTable.getColumnModel().getColumn(0).setPreferredWidth(120);
+				employeeTable.getColumnModel().getColumn(1).setPreferredWidth(286);
+				employeeTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+				employeeTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+				employeeTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+				renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+				employeeTable.setDefaultRenderer(Object.class, renderer);
+				employeeTable.setPreferredScrollableViewportSize(employeeTable.getSize());
+				employeeTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+				employeeScrollpane.setEnabled(false);
+				employeeScrollpane.setBounds(10, 36, 806, 377);
+				employeeScrollpane.setBackground(SystemColor.window);
+				employeeScrollpane.add(employeeTable);
+				employeeScrollpane.setViewportView(employeeTable);
+				lookEmployeePanel.add(employeeScrollpane);
+				JOptionPane.showMessageDialog(null, "查询成功，共查出【" + employees.size() + "】条记录！", "提示",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		lookEmployeeContentbuttonButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		lookEmployeeContentbuttonButton.setBackground(SystemColor.inactiveCaptionBorder);
+		lookEmployeeContentbuttonButton.setBounds(597, 0, 93, 28);
+		lookEmployeePanel.add(lookEmployeeContentbuttonButton);
 
 		JPanel addEmployeePanel = new JPanel();
 		addEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
@@ -438,9 +563,103 @@ public class MainFrame {
 		JPanel lookCustomPanel = new JPanel();
 		lookCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		customContentPanel.add(lookCustomPanel, "name_lookCustomPanel");
+		lookCustomPanel.setLayout(null);
 
-		JLabel label_8 = new JLabel("111");
-		lookCustomPanel.add(label_8);
+		JLabel lblCustom = new JLabel("客户编号：");
+		lblCustom.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblCustom.setBounds(125, 2, 90, 30);
+		lookCustomPanel.add(lblCustom);
+
+		customIdTextField = new JTextField();
+		customIdTextField.setColumns(10);
+		customIdTextField.setBounds(211, 7, 109, 21);
+		lookCustomPanel.add(customIdTextField);
+
+		customNameTextField = new JTextField();
+		customNameTextField.setColumns(10);
+		customNameTextField.setBounds(423, 7, 109, 21);
+		lookCustomPanel.add(customNameTextField);
+
+		JLabel lblCustom_1 = new JLabel("客户姓名：");
+		lblCustom_1.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblCustom_1.setBounds(339, 2, 90, 30);
+		lookCustomPanel.add(lblCustom_1);
+
+		JButton lookCustomContentbuttonButton = new JButton("查询");
+		lookCustomContentbuttonButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
+			public void actionPerformed(ActionEvent e) {
+				customRowData.clear();
+				customColumName.clear();
+				customColumName.add("客户编号");
+				customColumName.add("姓名");
+				customColumName.add("性别");
+				customColumName.add("当前借阅数量");
+				customColumName.add("总借阅数量");
+				customColumName.add("销户时间");
+				customColumName.add("添加人工号");
+				List<Custom> customs = new LinkedList<>();
+				if (customIdTextField.getText().isEmpty()) {
+					if (customNameTextField.getText().isEmpty()) {
+						// 查全部
+						customs = cs.getALLCustom();
+					} else {
+						String name = customNameTextField.getText();
+						customs = cs.getCustomByName(name);
+					}
+				} else {
+					int id = Integer.parseInt(customIdTextField.getText());
+					customs = cs.getCustomByid(id);
+				}
+
+				for (Custom custom : customs) {
+					@SuppressWarnings("rawtypes")
+					Vector vNext = new Vector();
+					vNext.add(custom.getId());
+					vNext.add(custom.getName());
+					vNext.add(custom.getSex());
+					vNext.add(custom.getLendcount());
+					vNext.add(custom.getSumcount());
+					String timestr;
+					if (custom.getLogofftime() != null) {
+						timestr = sdf.format(custom.getLogofftime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					vNext.add(custom.getEid());
+					customRowData.add(vNext);
+				}
+				customTable = new JTable(customRowData, customColumName);
+				customTable.setBackground(SystemColor.info);
+				customTable.setBounds(10, 36, 806, 377);
+				customTable.setFont(new Font("幼圆", Font.PLAIN, 14));
+				customTable.setEnabled(false);
+				customTable.getColumnModel().getColumn(0).setPreferredWidth(160);
+				customTable.getColumnModel().getColumn(1).setPreferredWidth(166);
+				customTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+				customTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+				customTable.getColumnModel().getColumn(4).setPreferredWidth(160);
+				customTable.getColumnModel().getColumn(5).setPreferredWidth(160);
+				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+				renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+				customTable.setDefaultRenderer(Object.class, renderer);
+				customTable.setPreferredScrollableViewportSize(customTable.getSize());
+				customTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+				customScrollpane.setEnabled(false);
+				customScrollpane.setBounds(10, 36, 806, 377);
+				customScrollpane.setBackground(SystemColor.window);
+				customScrollpane.add(customTable);
+				customScrollpane.setViewportView(customTable);
+				lookCustomPanel.add(customScrollpane);
+				JOptionPane.showMessageDialog(null, "查询成功，共查出【" + customs.size() + "】条记录！", "提示",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		lookCustomContentbuttonButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		lookCustomContentbuttonButton.setBackground(SystemColor.inactiveCaptionBorder);
+		lookCustomContentbuttonButton.setBounds(597, 0, 93, 28);
+		lookCustomPanel.add(lookCustomContentbuttonButton);
 
 		JPanel addCustomPanel = new JPanel();
 		addCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);

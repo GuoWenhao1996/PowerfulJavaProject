@@ -14,6 +14,8 @@ import com.gwhcool.dvdms.util.DBUtil;
  */
 public class EmployeeDaoImpl implements EmployeeDao {
 
+	DBUtil<Employee> db = new DBUtil<>();
+
 	@Override
 	public int login(int id, String pwd) {
 		List<Object> list = DBUtil.operateDQL(Employee.class, "select * from employee where id=? and password=?", id,
@@ -29,6 +31,25 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public List<Employee> getALLEmployee() {
+		List<Object> list = DBUtil.operateDQL(Employee.class, "select * from employee order by id asc");
+		return db.changeObjListToTList(list);
+	}
+
+	@Override
+	public List<Employee> getEmployeeByid(int id) {
+		List<Object> list = DBUtil.operateDQL(Employee.class, "select * from employee where id=? ", id);
+		return db.changeObjListToTList(list);
+	}
+
+	@Override
+	public List<Employee> getEmployeeByName(String name) {
+		List<Object> list = DBUtil.operateDQL(Employee.class,
+				"select * from employee where name like ? order by name desc", "%" + name + "%");
+		return db.changeObjListToTList(list);
 	}
 
 }
