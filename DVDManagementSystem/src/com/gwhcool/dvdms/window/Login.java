@@ -1,6 +1,5 @@
 package com.gwhcool.dvdms.window;
 
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +30,7 @@ public class Login {
 	private JFrame loginFrame;
 	private JTextField usernameTextField;
 	private JTextField passwordTextField;
+	public static int employeeid = 0;
 
 	/**
 	 * Create the application.
@@ -53,9 +53,9 @@ public class Login {
 		loginFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		loginFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int choose = JOptionPane.showConfirmDialog(null, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
+				int choose = JOptionPane.showConfirmDialog(loginFrame, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
 				if (choose == 0) {
-					JOptionPane.showMessageDialog(null, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(loginFrame, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
 				}
 			}
@@ -92,25 +92,26 @@ public class Login {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (usernameTextField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "用户名不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(loginFrame, "用户名不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
 				} else if (passwordTextField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "密码不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(loginFrame, "密码不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
 				} else {
 					int id = Integer.parseInt(usernameTextField.getText());
 					String password = passwordTextField.getText();
 					EmployeeService es = new EmployeeServiceImpl();
 					int state = es.login(id, password);
 					if (state == 2) {
-						JOptionPane.showMessageDialog(null, "已离职员工不能登录！", "提示", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(loginFrame, "已离职员工不能登录！", "提示", JOptionPane.WARNING_MESSAGE);
 					} else if (state == 1) {
-						JOptionPane.showMessageDialog(null, "登录成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(loginFrame, "登录成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
 						loginFrame.setVisible(false);
+						employeeid = id;
 						new MainFrame();
 					} else if (state == 0) {
-						JOptionPane.showMessageDialog(null, "登录失败，请重试！", "提示", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(loginFrame, "登录失败，请重试！", "提示", JOptionPane.ERROR_MESSAGE);
 						passwordTextField.setText("");
 					} else {
-						JOptionPane.showMessageDialog(null, "服务器配置错误，请联系管理员！\n tel：185 8148 5921", "抱歉",
+						JOptionPane.showMessageDialog(loginFrame, "服务器配置错误，请联系管理员！\n tel：185 8148 5921", "抱歉",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}

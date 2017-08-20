@@ -1,5 +1,6 @@
 package com.gwhcool.dvdms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gwhcool.dvdms.dao.CustomDao;
@@ -29,6 +30,17 @@ public class CustomServiceImpl implements CustomService {
 	@Override
 	public List<Custom> getCustomByName(String name) {
 		return cd.getCustomByName(name);
+	}
+
+	@Override
+	public boolean addCustom(Custom custom) {
+		return cd.addCustom(custom);
+	}
+
+	@Override
+	public boolean deleteCustom(Custom custom) {
+		custom.setLogofftime(new Date());
+		return cd.deleteCustom(custom);
 	}
 
 }

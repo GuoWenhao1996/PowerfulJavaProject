@@ -1,5 +1,6 @@
 package com.gwhcool.dvdms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gwhcool.dvdms.dao.DVDDao;
@@ -32,4 +33,15 @@ public class DVDServiceImpl implements DVDService {
 		return dd.getDVDByName(name);
 	}
 
+	@Override
+	public boolean addDvd(DVD dvd) {
+		return dd.addDvd(dvd);
+	}
+
+	@Override
+	public boolean deleteDvd(DVD dvd) {
+		dvd.setState("已下架");
+		dvd.setUndertime(new Date());
+		return dd.deleteDvd(dvd);
+	}
 }

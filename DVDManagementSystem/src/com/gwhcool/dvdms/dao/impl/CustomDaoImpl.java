@@ -17,7 +17,8 @@ public class CustomDaoImpl implements CustomDao {
 
 	@Override
 	public List<Custom> getALLCustom() {
-		List<Object> list = DBUtil.operateDQL(Custom.class, "select * from custom order by lendcount desc,sumcount desc");
+		List<Object> list = DBUtil.operateDQL(Custom.class,
+				"select * from custom order by lendcount desc,sumcount desc");
 		return db.changeObjListToTList(list);
 	}
 
@@ -29,9 +30,21 @@ public class CustomDaoImpl implements CustomDao {
 
 	@Override
 	public List<Custom> getCustomByName(String name) {
-		List<Object> list = DBUtil.operateDQL(Custom.class, "select * from custom where name like ? order by lendcount desc",
-				"%" + name + "%");
+		List<Object> list = DBUtil.operateDQL(Custom.class,
+				"select * from custom where name like ? order by lendcount desc", "%" + name + "%");
 		return db.changeObjListToTList(list);
+	}
+
+	@Override
+	public boolean addCustom(Custom custom) {
+		return DBUtil.operateDML("insert into custom (name,sex,eid) values(?,?,?)", custom.getName(), custom.getSex(),
+				custom.getEid());
+
+	}
+
+	@Override
+	public boolean deleteCustom(Custom custom) {
+		return DBUtil.operateDML("update custom set logofftime=? where id=?", custom.getLogofftime(), custom.getId());
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.gwhcool.dvdms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gwhcool.dvdms.dao.EmployeeDao;
@@ -36,6 +37,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getEmployeeByName(String name) {
 		return ed.getEmployeeByName(name);
+	}
+
+	@Override
+	public boolean addEmployee(Employee employee) {
+		employee.setPassword(MySystemUtil.md5Password(employee.getPassword()));
+		return ed.addEmployee(employee);
+	}
+
+	@Override
+	public boolean deleteEmployee(Employee employee) {
+		employee.setLeavetime(new Date());
+		return ed.deleteEmployee(employee);
 	}
 
 }

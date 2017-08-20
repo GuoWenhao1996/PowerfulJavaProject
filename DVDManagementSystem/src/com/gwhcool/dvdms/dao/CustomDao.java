@@ -3,6 +3,7 @@ package com.gwhcool.dvdms.dao;
 import java.util.List;
 
 import com.gwhcool.dvdms.entity.Custom;
+
 /**
  * 客户 dao层接口
  * 
@@ -30,4 +31,22 @@ public interface CustomDao {
 	 * @return 有相关名字的客户集合
 	 */
 	public List<Custom> getCustomByName(String name);
+
+	/**
+	 * 新增custom
+	 * 
+	 * @param custom
+	 *            增加的custom对象
+	 * @return 增加成功返回true
+	 */
+	public boolean addCustom(Custom custom);
+
+	/**
+	 * 删除客户
+	 * 
+	 * @param custom
+	 *            要删除的custom对象
+	 * @return 删除成功返回true
+	 */
+	public boolean deleteCustom(Custom custom);
 }

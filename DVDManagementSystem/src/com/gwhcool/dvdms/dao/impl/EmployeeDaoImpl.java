@@ -52,4 +52,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return db.changeObjListToTList(list);
 	}
 
+	@Override
+	public boolean addEmployee(Employee employee) {
+		return DBUtil.operateDML("insert into employee (name,sex,password,jointime) values(?,?,?,?)",
+				employee.getName(), employee.getSex(), employee.getPassword(), employee.getJointime());
+	}
+
+	@Override
+	public boolean deleteEmployee(Employee employee) {
+		return DBUtil.operateDML("update employee set leavetime=? where id=?", employee.getLeavetime(),
+				employee.getId());
+	}
+
 }

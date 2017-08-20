@@ -78,6 +78,14 @@ public class Employee {
 		this.jointime = jointime;
 	}
 
+	public Employee(String name, String sex, String password, Date jointime) {
+		super();
+		this.name = name;
+		this.sex = sex;
+		this.password = password;
+		this.jointime = jointime;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", name=" + name + ", sex=" + sex + ", password=" + password + ", leavetime="

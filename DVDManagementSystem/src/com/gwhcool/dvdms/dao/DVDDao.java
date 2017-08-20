@@ -32,4 +32,22 @@ public interface DVDDao {
 	 */
 	public List<DVD> getDVDByName(String name);
 
+	/**
+	 * 新增dvd
+	 * 
+	 * @param dvd
+	 *            增加的dvd对象
+	 * @return 增加成功返回true
+	 */
+	public boolean addDvd(DVD dvd);
+
+	/**
+	 * 下架dvd
+	 * 
+	 * @param dvd
+	 *            下架的dvd对象
+	 * @return 下架成功返回true
+	 */
+	public boolean deleteDvd(DVD dvd);
+
 }

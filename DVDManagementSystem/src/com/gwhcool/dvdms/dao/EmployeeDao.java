@@ -42,4 +42,22 @@ public interface EmployeeDao {
 	 * @return 有相关名字的员工集合
 	 */
 	public List<Employee> getEmployeeByName(String name);
+
+	/**
+	 * 新增employee
+	 * 
+	 * @param employee
+	 *            增加的employee对象
+	 * @return 增加成功返回true
+	 */
+	public boolean addEmployee(Employee employee);
+
+	/**
+	 * 删除员工
+	 * 
+	 * @param employee
+	 *            要删除的employee对象
+	 * @return 删除成功返回true
+	 */
+	public boolean deleteEmployee(Employee employee);
 }

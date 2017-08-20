@@ -6,6 +6,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 
 import java.awt.GridLayout;
@@ -18,7 +19,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -42,6 +45,7 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 
 public class MainFrame {
 
@@ -79,6 +83,18 @@ public class MainFrame {
 	private JTextField employeeNameTextField;
 	private JTextField customIdTextField;
 	private JTextField customNameTextField;
+	private JTextField addDvdNameTextField;
+	private JTextField addDvdCountTextField;
+	private JTextField addEmployeeNameTextField;
+	private JTextField addEmployeeSexTextField;
+	private JTextField addCustomNameTextField;
+	private JTextField addCustomSexTextField;
+	private JTextField deleteDvdIdTextField;
+	private JTextField deleteEmployeeIdTextField;
+	private JTextField deleteCustomIdTextField;
+	private JTextField oldPwdTextField;
+	private JTextField newPwdTextField;
+	private JTextField newPwdTextField2;
 
 	/**
 	 * Create the application.
@@ -99,9 +115,9 @@ public class MainFrame {
 		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		mainFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int choose = JOptionPane.showConfirmDialog(null, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
+				int choose = JOptionPane.showConfirmDialog(mainFrame, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
 				if (choose == 0) {
-					JOptionPane.showMessageDialog(null, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(mainFrame, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
 				} else {
 					mainFrame.setVisible(true);
@@ -193,7 +209,7 @@ public class MainFrame {
 						// 查全部
 						dvds = ds.getALLDVD();
 					} else {
-						String name = dvdNameTextField.getText();
+						String name = dvdNameTextField.getText().trim();
 						dvds = ds.getDVDByName(name);
 					}
 				} else {
@@ -209,8 +225,8 @@ public class MainFrame {
 					vNext.add(dvd.getState());
 					vNext.add(dvd.getCount());
 					String timestr;
-					if (dvd.getDatetime() != null) {
-						timestr = sdf.format(dvd.getDatetime());
+					if (dvd.getUndertime() != null) {
+						timestr = sdf.format(dvd.getUndertime());
 					} else {
 						timestr = "";
 					}
@@ -240,7 +256,7 @@ public class MainFrame {
 				dvdScrollpane.add(dvdTable);
 				dvdScrollpane.setViewportView(dvdTable);
 				lookDVDPanel.add(dvdScrollpane);
-				JOptionPane.showMessageDialog(null, "查询成功，共查出【" + dvds.size() + "】条记录！", "提示",
+				JOptionPane.showMessageDialog(mainFrame, "查询成功，共查出【" + dvds.size() + "】条记录！", "提示",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -264,16 +280,139 @@ public class MainFrame {
 		JPanel addDVDPanel = new JPanel();
 		addDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(addDVDPanel, "name_addDVDPanel");
+		addDVDPanel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("44444");
-		addDVDPanel.add(lblNewLabel);
+		JLabel lblAddDvdName = new JLabel("DVD名称：");
+		lblAddDvdName.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblAddDvdName.setBounds(285, 56, 81, 30);
+		addDVDPanel.add(lblAddDvdName);
+
+		addDvdNameTextField = new JTextField();
+		addDvdNameTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		addDvdNameTextField.setColumns(10);
+		addDvdNameTextField.setBounds(364, 57, 200, 30);
+		addDVDPanel.add(addDvdNameTextField);
+
+		JButton addDvdButton = new JButton("添加");
+		addDvdButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (addDvdNameTextField.getText().isEmpty() || addDvdNameTextField.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "DVD名称不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (addDvdCountTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "DVD数量不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					String name = addDvdNameTextField.getText().trim();
+					int count = Integer.parseInt(addDvdCountTextField.getText());
+					String state;
+					if (count != 0) {
+						state = "可租";
+					} else {
+						state = "已租完";
+					}
+					int eid = Login.employeeid;
+					DVD newdvd = new DVD(name, state, count, eid);
+					if (ds.addDvd(newdvd)) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + name + "】添加成功！", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(mainFrame,
+								"【" + name + "】添加失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		addDvdButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		addDvdButton.setBackground(SystemColor.inactiveCaptionBorder);
+		addDvdButton.setBounds(325, 175, 93, 28);
+		addDVDPanel.add(addDvdButton);
+
+		addDvdCountTextField = new JTextField();
+		addDvdCountTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		addDvdCountTextField.setColumns(10);
+		addDvdCountTextField.setBounds(364, 108, 200, 30);
+		addDvdCountTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		addDVDPanel.add(addDvdCountTextField);
+
+		JLabel lblAddDvdCount = new JLabel("DVD数量：");
+		lblAddDvdCount.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblAddDvdCount.setBounds(285, 108, 81, 30);
+		addDVDPanel.add(lblAddDvdCount);
+
+		JButton clearAddDvdButton = new JButton("清空");
+		clearAddDvdButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addDvdNameTextField.setText("");
+				addDvdCountTextField.setText("");
+			}
+		});
+		clearAddDvdButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		clearAddDvdButton.setBackground(SystemColor.inactiveCaptionBorder);
+		clearAddDvdButton.setBounds(449, 175, 93, 28);
+		addDVDPanel.add(clearAddDvdButton);
 
 		JPanel deleteDVDPanel = new JPanel();
 		deleteDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(deleteDVDPanel, "name_deleteDVDPanel");
+		deleteDVDPanel.setLayout(null);
 
-		JLabel label_3 = new JLabel("5555555");
-		deleteDVDPanel.add(label_3);
+		JLabel lbldeleteDvdName = new JLabel("要下架的DVD编号");
+		lbldeleteDvdName.setBounds(344, 48, 135, 21);
+		lbldeleteDvdName.setFont(new Font("幼圆", Font.PLAIN, 18));
+		deleteDVDPanel.add(lbldeleteDvdName);
+
+		deleteDvdIdTextField = new JTextField();
+		deleteDvdIdTextField.setBounds(344, 83, 135, 27);
+		deleteDvdIdTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		deleteDvdIdTextField.setColumns(10);
+		deleteDvdIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		deleteDVDPanel.add(deleteDvdIdTextField);
+
+		JButton deleteDvdNameButton = new JButton("下架");
+		deleteDvdNameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (deleteDvdIdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "DVD编号不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					int id = Integer.parseInt(deleteDvdIdTextField.getText());
+					List<DVD> list = ds.getDVDByid(id);
+					if (list.isEmpty()) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + id + "】不存在！", "提示", JOptionPane.WARNING_MESSAGE);
+					} else if (list.get(0).getUndertime() != null) {
+						JOptionPane.showMessageDialog(mainFrame,
+								"【" + id + "】已于【" + sdf.format(list.get(0).getUndertime()) + "】下架！", "提示",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						DVD dvd = list.get(0);
+						int choose = JOptionPane.showConfirmDialog(mainFrame, "DVD编号:【" + id + "】\nDVD名称:【"
+								+ dvd.getName() + "】\n剩余数量:【" + dvd.getCount() + "】\n删除后不可恢复，是否删除？", "提示",
+								JOptionPane.YES_NO_OPTION);
+						if (choose == 0) {
+							if (ds.deleteDvd(dvd)) {
+								JOptionPane.showMessageDialog(mainFrame, "删除成功，【" + id + "】已下架", "提示",
+										JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(mainFrame,
+										"【" + id + "】下架失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+			}
+		});
+		deleteDvdNameButton.setBounds(489, 47, 83, 63);
+		deleteDvdNameButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		deleteDvdNameButton.setBackground(SystemColor.inactiveCaptionBorder);
+		deleteDVDPanel.add(deleteDvdNameButton);
 
 		returnDVDButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -400,6 +539,11 @@ public class MainFrame {
 		employeeIdTextField = new JTextField();
 		employeeIdTextField.setColumns(10);
 		employeeIdTextField.setBounds(211, 7, 109, 21);
+		employeeIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
 		lookEmployeePanel.add(employeeIdTextField);
 
 		employeeNameTextField = new JTextField();
@@ -429,7 +573,7 @@ public class MainFrame {
 						// 查全部
 						employees = es.getALLEmployee();
 					} else {
-						String name = employeeNameTextField.getText();
+						String name = employeeNameTextField.getText().trim();
 						employees = es.getEmployeeByName(name);
 					}
 				} else {
@@ -479,7 +623,7 @@ public class MainFrame {
 				employeeScrollpane.add(employeeTable);
 				employeeScrollpane.setViewportView(employeeTable);
 				lookEmployeePanel.add(employeeScrollpane);
-				JOptionPane.showMessageDialog(null, "查询成功，共查出【" + employees.size() + "】条记录！", "提示",
+				JOptionPane.showMessageDialog(mainFrame, "查询成功，共查出【" + employees.size() + "】条记录！", "提示",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -491,23 +635,183 @@ public class MainFrame {
 		JPanel addEmployeePanel = new JPanel();
 		addEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeContentPanel.add(addEmployeePanel, "name_addEmployeePanel");
+		addEmployeePanel.setLayout(null);
 
-		JLabel label_5 = new JLabel("22222");
-		addEmployeePanel.add(label_5);
+		JLabel lblAddEmployeeName = new JLabel("员工姓名：");
+		lblAddEmployeeName.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblAddEmployeeName.setBounds(273, 56, 93, 30);
+		addEmployeePanel.add(lblAddEmployeeName);
+
+		addEmployeeNameTextField = new JTextField();
+		addEmployeeNameTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		addEmployeeNameTextField.setColumns(10);
+		addEmployeeNameTextField.setBounds(364, 57, 200, 30);
+		addEmployeePanel.add(addEmployeeNameTextField);
+
+		JButton addEmployeeToDBButton = new JButton("添加");
+		addEmployeeToDBButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (addEmployeeNameTextField.getText().isEmpty()
+						|| addEmployeeNameTextField.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "员工姓名不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (!("男".equals(addEmployeeSexTextField.getText().trim())
+						|| "女".equals(addEmployeeSexTextField.getText().trim()))) {
+					JOptionPane.showMessageDialog(mainFrame, "员工性别只能为【男】或【女】！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					String name = addEmployeeNameTextField.getText().trim();
+					String sex = addEmployeeSexTextField.getText().trim();
+					String password = "111111";
+					String time = MySystemUtil.getSystemTime();
+					Date jointime = null;
+					try {
+						jointime = sdf.parse(time);
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+					Employee employee = new Employee(name, sex, password, jointime);
+					if (es.addEmployee(employee)) {
+						JOptionPane.showMessageDialog(mainFrame,
+								"【" + name + "】添加成功！\n初始密码为：【" + password + "】请及时修改密码！", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(mainFrame,
+								"【" + name + "】添加失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		addEmployeeToDBButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		addEmployeeToDBButton.setBackground(SystemColor.inactiveCaptionBorder);
+		addEmployeeToDBButton.setBounds(325, 175, 93, 28);
+		addEmployeePanel.add(addEmployeeToDBButton);
+
+		addEmployeeSexTextField = new JTextField();
+		addEmployeeSexTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		addEmployeeSexTextField.setColumns(10);
+		addEmployeeSexTextField.setBounds(364, 108, 200, 30);
+		addEmployeePanel.add(addEmployeeSexTextField);
+
+		JLabel lblAddEmployeeSex = new JLabel("员工性别：");
+		lblAddEmployeeSex.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblAddEmployeeSex.setBounds(273, 108, 93, 30);
+		addEmployeePanel.add(lblAddEmployeeSex);
+
+		JButton clearAddEmployeeButton = new JButton("清空");
+		clearAddEmployeeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addEmployeeNameTextField.setText("");
+				addEmployeeSexTextField.setText("");
+			}
+		});
+		clearAddEmployeeButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		clearAddEmployeeButton.setBackground(SystemColor.inactiveCaptionBorder);
+		clearAddEmployeeButton.setBounds(449, 175, 93, 28);
+		addEmployeePanel.add(clearAddEmployeeButton);
 
 		JPanel updateEmployeePanel = new JPanel();
 		updateEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeContentPanel.add(updateEmployeePanel, "name_updateEmployeePanel");
-
-		JLabel label_6 = new JLabel("33333");
-		updateEmployeePanel.add(label_6);
+		updateEmployeePanel.setLayout(null);
+		
+		JLabel label = new JLabel("旧 密 码：");
+		label.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label.setBounds(273, 56, 93, 30);
+		updateEmployeePanel.add(label);
+		
+		oldPwdTextField = new JPasswordField();
+		oldPwdTextField.setFont(UIManager.getFont("PasswordField.font"));
+		oldPwdTextField.setColumns(10);
+		oldPwdTextField.setBounds(364, 57, 200, 30);
+		updateEmployeePanel.add(oldPwdTextField);
+		
+		JButton updatePasswordButton = new JButton("修改");
+		updatePasswordButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		updatePasswordButton.setBackground(SystemColor.inactiveCaptionBorder);
+		updatePasswordButton.setBounds(397, 234, 93, 28);
+		updateEmployeePanel.add(updatePasswordButton);
+		
+		newPwdTextField = new JPasswordField();
+		newPwdTextField.setFont(UIManager.getFont("PasswordField.font"));
+		newPwdTextField.setColumns(10);
+		newPwdTextField.setBounds(364, 109, 200, 30);
+		updateEmployeePanel.add(newPwdTextField);
+		
+		JLabel label_3 = new JLabel("新 密 码：");
+		label_3.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_3.setBounds(273, 108, 93, 30);
+		updateEmployeePanel.add(label_3);
+		
+		JLabel label_4 = new JLabel("确认密码：");
+		label_4.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_4.setBounds(273, 165, 93, 30);
+		updateEmployeePanel.add(label_4);
+		
+		newPwdTextField2 = new JPasswordField();
+		newPwdTextField2.setFont(UIManager.getFont("PasswordField.font"));
+		newPwdTextField2.setColumns(10);
+		newPwdTextField2.setBounds(364, 165, 200, 30);
+		updateEmployeePanel.add(newPwdTextField2);
 
 		JPanel deleteEmployeePanel = new JPanel();
 		deleteEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeContentPanel.add(deleteEmployeePanel, "name_deleteEmployeePanel");
+		deleteEmployeePanel.setLayout(null);
 
-		JLabel label_7 = new JLabel("44444");
-		deleteEmployeePanel.add(label_7);
+		JLabel lbldeleteEmployeeID = new JLabel("要删除的员工编号");
+		lbldeleteEmployeeID.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lbldeleteEmployeeID.setBounds(335, 48, 144, 21);
+		deleteEmployeePanel.add(lbldeleteEmployeeID);
+
+		deleteEmployeeIdTextField = new JTextField();
+		deleteEmployeeIdTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		deleteEmployeeIdTextField.setColumns(10);
+		deleteEmployeeIdTextField.setBounds(335, 83, 144, 27);
+		deleteEmployeeIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		deleteEmployeePanel.add(deleteEmployeeIdTextField);
+
+		JButton deleteEmployeeNameButton = new JButton("删除");
+		deleteEmployeeNameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (deleteEmployeeIdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "员工编号不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					int id = Integer.parseInt(deleteEmployeeIdTextField.getText());
+					List<Employee> list = es.getEmployeeByid(id);
+					if (list.isEmpty()) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + id + "】不存在！", "提示", JOptionPane.WARNING_MESSAGE);
+					} else if (list.get(0).getLeavetime() != null) {
+						JOptionPane.showMessageDialog(mainFrame,
+								"【" + id + "】已于【" + sdf.format(list.get(0).getLeavetime()) + "】离职！", "提示",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						Employee employee = list.get(0);
+						int choose = JOptionPane.showConfirmDialog(mainFrame,
+								"员工编号:【" + id + "】\n员工姓名:【" + employee.getName() + "】\n员工性别:【" + employee.getSex()
+										+ "】\n入职时间:【" + sdf.format(employee.getJointime()) + "】\n删除后不可恢复，是否删除？",
+								"提示", JOptionPane.YES_NO_OPTION);
+						if (choose == 0) {
+							if (es.deleteEmployee(employee)) {
+								JOptionPane.showMessageDialog(mainFrame, "删除成功，【" + id + "】已离职", "提示",
+										JOptionPane.INFORMATION_MESSAGE);
+							}else{
+								JOptionPane.showMessageDialog(mainFrame,
+										"【" + id + "】删除失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+			}
+		});
+		deleteEmployeeNameButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		deleteEmployeeNameButton.setBackground(SystemColor.inactiveCaptionBorder);
+		deleteEmployeeNameButton.setBounds(489, 47, 83, 63);
+		deleteEmployeePanel.add(deleteEmployeeNameButton);
 
 		JPanel customPanel = new JPanel();
 		customPanel.setBackground(SystemColor.inactiveCaptionBorder);
@@ -573,6 +877,11 @@ public class MainFrame {
 		customIdTextField = new JTextField();
 		customIdTextField.setColumns(10);
 		customIdTextField.setBounds(211, 7, 109, 21);
+		customIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
 		lookCustomPanel.add(customIdTextField);
 
 		customNameTextField = new JTextField();
@@ -604,7 +913,7 @@ public class MainFrame {
 						// 查全部
 						customs = cs.getALLCustom();
 					} else {
-						String name = customNameTextField.getText();
+						String name = customNameTextField.getText().trim();
 						customs = cs.getCustomByName(name);
 					}
 				} else {
@@ -652,7 +961,7 @@ public class MainFrame {
 				customScrollpane.add(customTable);
 				customScrollpane.setViewportView(customTable);
 				lookCustomPanel.add(customScrollpane);
-				JOptionPane.showMessageDialog(null, "查询成功，共查出【" + customs.size() + "】条记录！", "提示",
+				JOptionPane.showMessageDialog(mainFrame, "查询成功，共查出【" + customs.size() + "】条记录！", "提示",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -664,16 +973,134 @@ public class MainFrame {
 		JPanel addCustomPanel = new JPanel();
 		addCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		customContentPanel.add(addCustomPanel, "name_addCustomPanel");
+		addCustomPanel.setLayout(null);
 
-		JLabel label_9 = new JLabel("222");
-		addCustomPanel.add(label_9);
+		JLabel lblAddCustomeName = new JLabel("客户姓名：");
+		lblAddCustomeName.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblAddCustomeName.setBounds(273, 56, 93, 30);
+		addCustomPanel.add(lblAddCustomeName);
+
+		addCustomNameTextField = new JTextField();
+		addCustomNameTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		addCustomNameTextField.setColumns(10);
+		addCustomNameTextField.setBounds(364, 57, 200, 30);
+		addCustomPanel.add(addCustomNameTextField);
+
+		JButton addCustomToDBButton = new JButton("添加");
+		addCustomToDBButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (addCustomNameTextField.getText().isEmpty() || addCustomNameTextField.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "客户姓名不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (!("男".equals(addCustomSexTextField.getText().trim())
+						|| "女".equals(addCustomSexTextField.getText().trim()))) {
+					JOptionPane.showMessageDialog(mainFrame, "客户性别只能为【男】或【女】！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					String name = addCustomNameTextField.getText().trim();
+					String sex = addCustomSexTextField.getText().trim();
+					int eid = Login.employeeid;
+					Custom custom = new Custom(name, sex, eid);
+					if (cs.addCustom(custom)) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + name + "】添加成功！", "提示",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(mainFrame,
+								"【" + name + "】添加失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		addCustomToDBButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		addCustomToDBButton.setBackground(SystemColor.inactiveCaptionBorder);
+		addCustomToDBButton.setBounds(325, 175, 93, 28);
+		addCustomPanel.add(addCustomToDBButton);
+
+		addCustomSexTextField = new JTextField();
+		addCustomSexTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		addCustomSexTextField.setColumns(10);
+		addCustomSexTextField.setBounds(364, 108, 200, 30);
+		addCustomPanel.add(addCustomSexTextField);
+
+		JLabel lblAddCustomSex = new JLabel("客户性别：");
+		lblAddCustomSex.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblAddCustomSex.setBounds(273, 108, 93, 30);
+		addCustomPanel.add(lblAddCustomSex);
+
+		JButton clearAddCustomButton = new JButton("清空");
+		clearAddCustomButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addCustomNameTextField.setText("");
+				addCustomSexTextField.setText("");
+			}
+		});
+		clearAddCustomButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		clearAddCustomButton.setBackground(SystemColor.inactiveCaptionBorder);
+		clearAddCustomButton.setBounds(449, 175, 93, 28);
+		addCustomPanel.add(clearAddCustomButton);
 
 		JPanel deleteCustomPanel = new JPanel();
 		deleteCustomPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		customContentPanel.add(deleteCustomPanel, "name_deleteCustomPanel");
+		deleteCustomPanel.setLayout(null);
 
-		JLabel label_10 = new JLabel("333");
-		deleteCustomPanel.add(label_10);
+		JLabel lbldeleteCustomID = new JLabel("要删除的客户编号");
+		lbldeleteCustomID.setBounds(335, 48, 144, 21);
+		lbldeleteCustomID.setFont(new Font("幼圆", Font.PLAIN, 18));
+		deleteCustomPanel.add(lbldeleteCustomID);
+
+		deleteCustomIdTextField = new JTextField();
+		deleteCustomIdTextField.setBounds(335, 83, 144, 27);
+		deleteCustomIdTextField.setFont(new Font("幼圆", Font.PLAIN, 18));
+		deleteCustomIdTextField.setColumns(10);
+		deleteCustomIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		deleteCustomPanel.add(deleteCustomIdTextField);
+
+		JButton deleteCustomNameButton = new JButton("删除");
+		deleteCustomNameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (deleteCustomIdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "客户编号不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					int id = Integer.parseInt(deleteCustomIdTextField.getText());
+					List<Custom> list = cs.getCustomByid(id);
+					if (list.isEmpty()) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + id + "】不存在！", "提示", JOptionPane.WARNING_MESSAGE);
+					} else if (list.get(0).getLogofftime() != null) {
+						JOptionPane.showMessageDialog(mainFrame,
+								"【" + id + "】已于【" + sdf.format(list.get(0).getLogofftime()) + "】销户！", "提示",
+								JOptionPane.WARNING_MESSAGE);
+					} else if (list.get(0).getLendcount() != 0) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + id + "】当前有DVD未归还，不能销户！", "提示",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						Custom custom = list.get(0);
+						int choose = JOptionPane.showConfirmDialog(mainFrame,
+								"客户编号:【" + id + "】\n客户姓名:【" + custom.getName() + "】\n客户性别:【" + custom.getSex()
+										+ "】\n当前借阅数量:【" + custom.getLendcount() + "】\n总借阅数量:【" + custom.getSumcount()
+										+ "】\n删除后不可恢复，是否删除？",
+								"提示", JOptionPane.YES_NO_OPTION);
+						if (choose == 0) {
+							if (cs.deleteCustom(custom)) {
+								JOptionPane.showMessageDialog(mainFrame, "删除成功，【" + id + "】已销户！", "提示",
+										JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(mainFrame,
+										"【" + id + "】销户失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+			}
+		});
+		deleteCustomNameButton.setBounds(489, 47, 83, 63);
+		deleteCustomNameButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		deleteCustomNameButton.setBackground(SystemColor.inactiveCaptionBorder);
+		deleteCustomPanel.add(deleteCustomNameButton);
 
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBounds(10, 10, 826, 63);
@@ -722,7 +1149,8 @@ public class MainFrame {
 		JButton logoffButton = new JButton("\u6CE8\u9500");
 		logoffButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int choose = JOptionPane.showConfirmDialog(null, "注销后返回登录页面，是否注销？", "提示", JOptionPane.YES_NO_OPTION);
+				int choose = JOptionPane.showConfirmDialog(mainFrame, "注销后返回登录页面，是否注销？", "提示",
+						JOptionPane.YES_NO_OPTION);
 				if (choose == 0) {
 					mainFrame.setVisible(false);
 					new Login();
@@ -736,9 +1164,9 @@ public class MainFrame {
 		JButton exitButton = new JButton("\u9000\u51FA");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int choose = JOptionPane.showConfirmDialog(null, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
+				int choose = JOptionPane.showConfirmDialog(mainFrame, "是否退出系统？", "提示", JOptionPane.YES_NO_OPTION);
 				if (choose == 0) {
-					JOptionPane.showMessageDialog(null, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(mainFrame, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
 				}
 			}

@@ -35,4 +35,16 @@ public class DVDDaoImpl implements DVDDao {
 		return db.changeObjListToTList(list);
 	}
 
+	@Override
+	public boolean addDvd(DVD dvd) {
+		return DBUtil.operateDML("insert into dvd (name,state,count,eid) values(?,?,?,?)", dvd.getName(),
+				dvd.getState(), dvd.getCount(), dvd.getEid());
+	}
+
+	@Override
+	public boolean deleteDvd(DVD dvd) {
+		return DBUtil.operateDML("update dvd set state=?, undertime=? where id=?", dvd.getState(), dvd.getUndertime(),
+				dvd.getId());
+	}
+
 }

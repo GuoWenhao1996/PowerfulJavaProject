@@ -48,11 +48,11 @@ public class DVD {
 		this.count = count;
 	}
 
-	public Date getDatetime() {
+	public Date getUndertime() {
 		return undertime;
 	}
 
-	public void setDatetime(Date undertime) {
+	public void setUndertime(Date undertime) {
 		this.undertime = undertime;
 	}
 
@@ -75,6 +75,14 @@ public class DVD {
 		this.state = state;
 		this.count = count;
 		this.undertime = undertime;
+		this.eid = eid;
+	}
+
+	public DVD(String name, String state, int count, int eid) {
+		super();
+		this.name = name;
+		this.state = state;
+		this.count = count;
 		this.eid = eid;
 	}
 

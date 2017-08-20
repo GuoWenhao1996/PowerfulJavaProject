@@ -88,6 +88,13 @@ public class Custom {
 		this.eid = eid;
 	}
 
+	public Custom(String name, String sex, int eid) {
+		super();
+		this.name = name;
+		this.sex = sex;
+		this.eid = eid;
+	}
+
 	@Override
 	public String toString() {
 		return "Custom [id=" + id + ", name=" + name + ", sex=" + sex + ", lendcount=" + lendcount + ", sumcount="
