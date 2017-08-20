@@ -60,4 +60,13 @@ public interface EmployeeDao {
 	 * @return 删除成功返回true
 	 */
 	public boolean deleteEmployee(Employee employee);
+	
+	/**
+	 * 修改密码
+	 * 
+	 * @param employee
+	 *            要修改的employee对象
+	 * @return 修改成功返回true
+	 */
+	public boolean updatePassword(Employee employee);
 }

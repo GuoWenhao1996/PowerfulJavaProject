@@ -49,5 +49,4 @@ public interface DVDDao {
 	 * @return 下架成功返回true
 	 */
 	public boolean deleteDvd(DVD dvd);
-
 }

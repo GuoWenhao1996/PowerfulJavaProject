@@ -24,6 +24,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class Login {
 
@@ -44,6 +45,7 @@ public class Login {
 	 */
 	private void initialize() {
 		loginFrame = new JFrame();
+		loginFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
 		loginFrame.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
 		loginFrame.setTitle("\u767B\u5F55                                 DVD\u7BA1\u7406\u7CFB\u7EDF");
 		loginFrame.setBounds(100, 100, 450, 300);
@@ -110,6 +112,7 @@ public class Login {
 					} else if (state == 0) {
 						JOptionPane.showMessageDialog(loginFrame, "登录失败，请重试！", "提示", JOptionPane.ERROR_MESSAGE);
 						passwordTextField.setText("");
+						passwordTextField.requestFocus();
 					} else {
 						JOptionPane.showMessageDialog(loginFrame, "服务器配置错误，请联系管理员！\n tel：185 8148 5921", "抱歉",
 								JOptionPane.ERROR_MESSAGE);

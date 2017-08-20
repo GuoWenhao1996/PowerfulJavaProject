@@ -51,4 +51,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return ed.deleteEmployee(employee);
 	}
 
+	@Override
+	public boolean updatePassword(Employee employee) {
+		employee.setPassword(MySystemUtil.md5Password(employee.getPassword()));
+		return ed.updatePassword(employee);
+	}
+
 }

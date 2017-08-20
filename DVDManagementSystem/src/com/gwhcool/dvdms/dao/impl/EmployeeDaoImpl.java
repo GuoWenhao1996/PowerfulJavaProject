@@ -64,4 +64,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 				employee.getId());
 	}
 
+	@Override
+	public boolean updatePassword(Employee employee) {
+		return DBUtil.operateDML("update employee set password=? where id=?", employee.getPassword(),
+				employee.getId());
+	}
+
 }

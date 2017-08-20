@@ -44,7 +44,7 @@ public class DBUtil<T> {
 			dataSource.setDriverClass(driverClass);
 			dataSource.setUser(username);
 			dataSource.setPassword(password);
-			dataSource.setMinPoolSize(3);
+			dataSource.setMinPoolSize(10);
 			dataSource.setMaxPoolSize(15);
 		} catch (IOException e) {
 			e.printStackTrace();

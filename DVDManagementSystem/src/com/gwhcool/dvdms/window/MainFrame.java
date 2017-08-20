@@ -32,12 +32,15 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import com.gwhcool.dvdms.entity.Custom;
 import com.gwhcool.dvdms.entity.DVD;
 import com.gwhcool.dvdms.entity.Employee;
+import com.gwhcool.dvdms.entity.Lend;
 import com.gwhcool.dvdms.service.CustomService;
 import com.gwhcool.dvdms.service.DVDService;
 import com.gwhcool.dvdms.service.EmployeeService;
+import com.gwhcool.dvdms.service.LendService;
 import com.gwhcool.dvdms.service.impl.CustomServiceImpl;
 import com.gwhcool.dvdms.service.impl.DVDServiceImpl;
 import com.gwhcool.dvdms.service.impl.EmployeeServiceImpl;
+import com.gwhcool.dvdms.service.impl.LendServiceImpl;
 import com.gwhcool.dvdms.util.MySystemUtil;
 
 import java.awt.Component;
@@ -46,12 +49,14 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import java.awt.Toolkit;
 
 public class MainFrame {
 
 	private DVDService ds = new DVDServiceImpl();
 	private EmployeeService es = new EmployeeServiceImpl();
 	private CustomService cs = new CustomServiceImpl();
+	private LendService ls = new LendServiceImpl();
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private JFrame mainFrame;
@@ -79,6 +84,20 @@ public class MainFrame {
 	@SuppressWarnings("rawtypes")
 	private Vector customColumName = new Vector();
 
+	private JTable lendTable;
+	private JScrollPane lendScrollpane = new JScrollPane();
+	@SuppressWarnings("rawtypes")
+	private Vector lendRowData = new Vector();
+	@SuppressWarnings("rawtypes")
+	private Vector lendColumName = new Vector();
+
+	private JTable returnTable;
+	private JScrollPane returnScrollpane = new JScrollPane();
+	@SuppressWarnings("rawtypes")
+	private Vector returnRowData = new Vector();
+	@SuppressWarnings("rawtypes")
+	private Vector returnColumName = new Vector();
+
 	private JTextField employeeIdTextField;
 	private JTextField employeeNameTextField;
 	private JTextField customIdTextField;
@@ -95,6 +114,10 @@ public class MainFrame {
 	private JTextField oldPwdTextField;
 	private JTextField newPwdTextField;
 	private JTextField newPwdTextField2;
+	private JTextField lendDVDIdTextField;
+	private JTextField lendCustomIdTextField;
+	private JTextField returnCustomIdTextField;
+	private JTextField returnDVDIdTextField;
 
 	/**
 	 * Create the application.
@@ -108,6 +131,8 @@ public class MainFrame {
 	 */
 	private void initialize() {
 		mainFrame = new JFrame();
+		mainFrame.setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(MainFrame.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		mainFrame.getContentPane().setBackground(SystemColor.inactiveCaptionBorder);
 		mainFrame.setTitle(
 				"\u4E3B\u754C\u9762                                                                             DVD\u7BA1\u7406\u7CFB\u7EDF");
@@ -266,16 +291,286 @@ public class MainFrame {
 		JPanel lendDVDPanel = new JPanel();
 		lendDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(lendDVDPanel, "name_lendDVDPanel");
+		lendDVDPanel.setLayout(null);
 
-		JLabel label_1 = new JLabel("22222");
-		lendDVDPanel.add(label_1);
+		lendDVDIdTextField = new JTextField();
+		lendDVDIdTextField.setColumns(10);
+		lendDVDIdTextField.setBounds(348, 7, 109, 21);
+		lendDVDIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		lendDVDPanel.add(lendDVDIdTextField);
 
+		JLabel lblDvd_2 = new JLabel("DVD 编号：");
+		lblDvd_2.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblDvd_2.setBounds(245, 2, 93, 30);
+		lendDVDPanel.add(lblDvd_2);
+
+		JLabel label_5 = new JLabel("客户编号：");
+		label_5.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_5.setBounds(245, 38, 93, 30);
+		label_5.setVisible(false);
+		lendDVDPanel.add(label_5);
+
+		lendCustomIdTextField = new JTextField();
+		lendCustomIdTextField.setColumns(10);
+		lendCustomIdTextField.setBounds(348, 43, 109, 21);
+		lendCustomIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		lendCustomIdTextField.setVisible(false);
+		lendDVDPanel.add(lendCustomIdTextField);
+
+		JButton lendButton = new JButton("借阅");
+		lendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (lendDVDIdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "DVD编号不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (lendCustomIdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "客户编号不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					int did = Integer.parseInt(lendDVDIdTextField.getText());
+					if ("已下架".equals(ds.getDVDByid(did).get(0).getState())) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + did + "】当前已下架，无法借阅！", "提示",
+								JOptionPane.WARNING_MESSAGE);
+					} else if ("已租完".equals(ds.getDVDByid(did).get(0).getState())) {
+						JOptionPane.showMessageDialog(mainFrame, "【" + did + "】当前数量为0，无法借阅！", "提示",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						int cid = Integer.parseInt(lendCustomIdTextField.getText());
+						Lend lend = new Lend(did, cid);
+						if (ls.addLend(lend)) {
+							JOptionPane.showMessageDialog(mainFrame, "借阅成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(mainFrame, "借阅失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}
+		});
+		lendButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		lendButton.setBackground(SystemColor.inactiveCaptionBorder);
+		lendButton.setBounds(467, 38, 93, 28);
+		lendButton.setVisible(false);
+		lendDVDPanel.add(lendButton);
+		JButton lookLendbutton = new JButton("查询");
+		lookLendbutton.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
+			public void actionPerformed(ActionEvent e) {
+				label_5.setVisible(true);
+				lendCustomIdTextField.setVisible(true);
+				lendButton.setVisible(true);
+				lendRowData.clear();
+				lendColumName.clear();
+				lendColumName.add("DVD编号");
+				// lendColumName.add("DVD名称");
+				lendColumName.add("借阅人编号");
+				// lendColumName.add("借阅人姓名");
+				lendColumName.add("借阅时间");
+				lendColumName.add("归还时间");
+				List<Lend> lends = new LinkedList<>();
+				if (lendDVDIdTextField.getText().isEmpty()) {
+					// 查全部
+					lends = ls.getALLLend();
+				} else {
+					int id = Integer.parseInt(lendDVDIdTextField.getText());
+					lends = ls.getLendByDVDId(id);
+				}
+				for (Lend lend : lends) {
+					@SuppressWarnings("rawtypes")
+					Vector vNext = new Vector();
+					vNext.add(lend.getDid());
+					// vNext.add(ds.getDVDByid(lend.getDid()).get(0).getName());
+					vNext.add(lend.getCid());
+					// vNext.add(cs.getCustomByid(lend.getCid()).get(0).getName());
+					String timestr;
+					if (lend.getLendtime() != null) {
+						timestr = sdf.format(lend.getLendtime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					if (lend.getBacktime() != null) {
+						timestr = sdf.format(lend.getBacktime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					lendRowData.add(vNext);
+				}
+				lendTable = new JTable(lendRowData, lendColumName);
+				lendTable.setBackground(SystemColor.info);
+				lendTable.setBounds(10, 78, 806, 335);
+				lendTable.setFont(new Font("幼圆", Font.PLAIN, 14));
+				lendTable.setEnabled(false);
+				lendTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+				// lendTable.getColumnModel().getColumn(1).setPreferredWidth(160);
+				lendTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+				// lendTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+				lendTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+				lendTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+				renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+				lendTable.setDefaultRenderer(Object.class, renderer);
+				lendTable.setPreferredScrollableViewportSize(lendTable.getSize());
+				lendTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+				lendScrollpane.setEnabled(false);
+				lendScrollpane.setBounds(10, 78, 806, 335);
+				lendScrollpane.setBackground(SystemColor.window);
+				lendScrollpane.add(lendTable);
+				lendScrollpane.setViewportView(lendTable);
+				lendDVDPanel.add(lendScrollpane);
+				JOptionPane.showMessageDialog(mainFrame, "查询成功，共查出【" + lends.size() + "】条记录！", "提示",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		lookLendbutton.setFont(new Font("幼圆", Font.BOLD, 18));
+		lookLendbutton.setBackground(SystemColor.inactiveCaptionBorder);
+		lookLendbutton.setBounds(467, 2, 93, 28);
+		lendDVDPanel.add(lookLendbutton);
 		JPanel returnDVDPanel = new JPanel();
 		returnDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(returnDVDPanel, "name_returnDVDPanel");
+		returnDVDPanel.setLayout(null);
 
-		JLabel label_2 = new JLabel("33333");
+		JLabel label_1 = new JLabel("客户编号：");
+		label_1.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_1.setBounds(245, 2, 93, 30);
+		returnDVDPanel.add(label_1);
+
+		returnCustomIdTextField = new JTextField();
+		returnCustomIdTextField.setColumns(10);
+		returnCustomIdTextField.setBounds(348, 7, 109, 21);
+		returnCustomIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		returnDVDPanel.add(returnCustomIdTextField);
+
+		JLabel label_2 = new JLabel("DVD 编号：");
+		label_2.setFont(new Font("幼圆", Font.PLAIN, 18));
+		label_2.setBounds(245, 38, 93, 30);
+		label_2.setVisible(false);
 		returnDVDPanel.add(label_2);
+
+		returnDVDIdTextField = new JTextField();
+		returnDVDIdTextField.setColumns(10);
+		returnDVDIdTextField.setBounds(348, 43, 109, 21);
+		returnDVDIdTextField.setVisible(false);
+		returnDVDIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+		returnDVDPanel.add(returnDVDIdTextField);
+
+		JButton returnButton = new JButton("归还");
+		returnButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (returnCustomIdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "客户编号不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (returnDVDIdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "DVD编号不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					int did = Integer.parseInt(returnDVDIdTextField.getText());
+					int cid = Integer.parseInt(returnCustomIdTextField.getText());
+					Lend lend = new Lend(did, cid);
+					if (ls.deleteLend(lend)) {
+						JOptionPane.showMessageDialog(mainFrame, "归还成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(mainFrame, "您尚未借阅此DVD！", "提示", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
+		});
+		returnButton.setFont(new Font("幼圆", Font.BOLD, 18));
+		returnButton.setBackground(SystemColor.inactiveCaptionBorder);
+		returnButton.setBounds(467, 38, 93, 28);
+		returnButton.setVisible(false);
+		returnDVDPanel.add(returnButton);
+
+		JButton lookReturnbutton = new JButton("查询");
+		lookReturnbutton.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
+			public void actionPerformed(ActionEvent e) {
+				label_2.setVisible(true);
+				returnDVDIdTextField.setVisible(true);
+				returnButton.setVisible(true);
+
+				returnRowData.clear();
+				returnColumName.clear();
+				returnColumName.add("DVD编号");
+				// returnColumName.add("DVD名称");
+				returnColumName.add("借阅人编号");
+				// returnColumName.add("借阅人姓名");
+				returnColumName.add("借阅时间");
+				returnColumName.add("归还时间");
+				List<Lend> lends = new LinkedList<>();
+				if (returnCustomIdTextField.getText().isEmpty()) {
+					// 查全部
+					lends = ls.getALLLend();
+				} else {
+					int id = Integer.parseInt(returnCustomIdTextField.getText());
+					lends = ls.getLendByCustomId(id);
+				}
+				for (Lend lend : lends) {
+					@SuppressWarnings("rawtypes")
+					Vector vNext = new Vector();
+					vNext.add(lend.getDid());
+					// vNext.add(ds.getDVDByid(lend.getDid()).get(0).getName());
+					vNext.add(lend.getCid());
+					// vNext.add(cs.getCustomByid(lend.getCid()).get(0).getName());
+					String timestr;
+					if (lend.getLendtime() != null) {
+						timestr = sdf.format(lend.getLendtime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					if (lend.getBacktime() != null) {
+						timestr = sdf.format(lend.getBacktime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					returnRowData.add(vNext);
+				}
+				returnTable = new JTable(returnRowData, returnColumName);
+				returnTable.setBackground(SystemColor.info);
+				returnTable.setBounds(10, 78, 806, 335);
+				returnTable.setFont(new Font("幼圆", Font.PLAIN, 14));
+				returnTable.setEnabled(false);
+				lendTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+				// lendTable.getColumnModel().getColumn(1).setPreferredWidth(160);
+				lendTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+				// lendTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+				lendTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+				lendTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+				renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+				returnTable.setDefaultRenderer(Object.class, renderer);
+				returnTable.setPreferredScrollableViewportSize(returnTable.getSize());
+				returnTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+				returnScrollpane.setEnabled(false);
+				returnScrollpane.setBounds(10, 78, 806, 335);
+				returnScrollpane.setBackground(SystemColor.window);
+				returnScrollpane.add(returnTable);
+				returnScrollpane.setViewportView(returnTable);
+				returnDVDPanel.add(returnScrollpane);
+				JOptionPane.showMessageDialog(mainFrame, "查询成功，共查出【" + lends.size() + "】条记录！", "提示",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		lookReturnbutton.setFont(new Font("幼圆", Font.BOLD, 18));
+		lookReturnbutton.setBackground(SystemColor.inactiveCaptionBorder);
+		lookReturnbutton.setBounds(467, 2, 93, 28);
+		returnDVDPanel.add(lookReturnbutton);
 
 		JPanel addDVDPanel = new JPanel();
 		addDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
@@ -295,6 +590,7 @@ public class MainFrame {
 
 		JButton addDvdButton = new JButton("添加");
 		addDvdButton.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				if (addDvdNameTextField.getText().isEmpty() || addDvdNameTextField.getText().trim().isEmpty()) {
 					JOptionPane.showMessageDialog(mainFrame, "DVD名称不能为空！", "提示", JOptionPane.WARNING_MESSAGE);
@@ -713,45 +1009,78 @@ public class MainFrame {
 		updateEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
 		employeeContentPanel.add(updateEmployeePanel, "name_updateEmployeePanel");
 		updateEmployeePanel.setLayout(null);
-		
+
 		JLabel label = new JLabel("旧 密 码：");
 		label.setFont(new Font("幼圆", Font.PLAIN, 18));
 		label.setBounds(273, 56, 93, 30);
 		updateEmployeePanel.add(label);
-		
+
 		oldPwdTextField = new JPasswordField();
 		oldPwdTextField.setFont(UIManager.getFont("PasswordField.font"));
 		oldPwdTextField.setColumns(10);
 		oldPwdTextField.setBounds(364, 57, 200, 30);
 		updateEmployeePanel.add(oldPwdTextField);
-		
+
 		JButton updatePasswordButton = new JButton("修改");
+		updatePasswordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (oldPwdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "请填写旧密码！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (newPwdTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "请填写新密码！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (newPwdTextField2.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(mainFrame, "请填写确认密码！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else if (!newPwdTextField.getText().equals(newPwdTextField2.getText())) {
+					JOptionPane.showMessageDialog(mainFrame, "新密码与确认密码不一致！", "提示", JOptionPane.WARNING_MESSAGE);
+				} else {
+					int employeeId = Login.employeeid;
+					String oldPwd = oldPwdTextField.getText();
+					if (es.login(employeeId, oldPwd) == 1) {
+						Employee employee = new Employee();
+						employee.setId(employeeId);
+						employee.setPassword(newPwdTextField.getText());
+						if (es.updatePassword(employee)) {
+							JOptionPane.showMessageDialog(mainFrame, "密码修改成功！", "提示", JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(mainFrame, "密码修改失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					} else {
+						JOptionPane.showMessageDialog(mainFrame, "旧密码验证失败！", "提示", JOptionPane.ERROR_MESSAGE);
+						oldPwdTextField.setText("");
+						oldPwdTextField.requestFocus();
+					}
+				}
+			}
+		});
 		updatePasswordButton.setFont(new Font("幼圆", Font.BOLD, 18));
 		updatePasswordButton.setBackground(SystemColor.inactiveCaptionBorder);
 		updatePasswordButton.setBounds(397, 234, 93, 28);
 		updateEmployeePanel.add(updatePasswordButton);
-		
+
 		newPwdTextField = new JPasswordField();
 		newPwdTextField.setFont(UIManager.getFont("PasswordField.font"));
 		newPwdTextField.setColumns(10);
 		newPwdTextField.setBounds(364, 109, 200, 30);
 		updateEmployeePanel.add(newPwdTextField);
-		
+
 		JLabel label_3 = new JLabel("新 密 码：");
 		label_3.setFont(new Font("幼圆", Font.PLAIN, 18));
 		label_3.setBounds(273, 108, 93, 30);
 		updateEmployeePanel.add(label_3);
-		
+
 		JLabel label_4 = new JLabel("确认密码：");
 		label_4.setFont(new Font("幼圆", Font.PLAIN, 18));
 		label_4.setBounds(273, 165, 93, 30);
 		updateEmployeePanel.add(label_4);
-		
+
 		newPwdTextField2 = new JPasswordField();
 		newPwdTextField2.setFont(UIManager.getFont("PasswordField.font"));
 		newPwdTextField2.setColumns(10);
 		newPwdTextField2.setBounds(364, 165, 200, 30);
 		updateEmployeePanel.add(newPwdTextField2);
+		updateEmployeePanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { oldPwdTextField,
+				newPwdTextField, newPwdTextField2, updatePasswordButton, label, label_3, label_4 }));
 
 		JPanel deleteEmployeePanel = new JPanel();
 		deleteEmployeePanel.setBackground(SystemColor.inactiveCaptionBorder);
@@ -798,7 +1127,7 @@ public class MainFrame {
 							if (es.deleteEmployee(employee)) {
 								JOptionPane.showMessageDialog(mainFrame, "删除成功，【" + id + "】已离职", "提示",
 										JOptionPane.INFORMATION_MESSAGE);
-							}else{
+							} else {
 								JOptionPane.showMessageDialog(mainFrame,
 										"【" + id + "】删除失败！\n服务器异常！请联系管理员！\n tel：185 8148 5921", "提示",
 										JOptionPane.ERROR_MESSAGE);

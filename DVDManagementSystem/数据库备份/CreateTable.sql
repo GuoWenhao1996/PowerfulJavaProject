@@ -1,8 +1,8 @@
-﻿CREATE TABLE `employee` (
+CREATE TABLE `employee` (
 `id`  int NOT NULL AUTO_INCREMENT ,
 `name`  varchar(20) NOT NULL ,
 `sex`  varchar(3) NULL DEFAULT '男' ,
-`password`  varchar(20) NOT NULL ,
+`password`  varchar(32) NOT NULL ,
 `leavetime`  datetime NULL ,
 `jointime`  datetime NULL ,
 PRIMARY KEY (`id`)
@@ -41,20 +41,21 @@ FOREIGN KEY (`did`) REFERENCES `dvd` (`id`),
 FOREIGN KEY (`cid`) REFERENCES `custom` (`id`)
 );
 
- CREATE TRIGGER tri_addLend
- AFTER INSERT
- ON lend
- FOR EACH ROW
- BEGIN
- 	UPDATE dvd SET count=count-1 where id=new.did;
- 	UPDATE custom SET lendcount=lendcount+1,sumcount=sumcount+1 where id=new.cid;
- END;
- 
- CREATE TRIGGER tri_backLend
- AFTER UPDATE
- ON lend
- FOR EACH ROW
- BEGIN
- 	UPDATE dvd SET count=count+1 where id=new.did;
- 	UPDATE custom SET lendcount=lendcount-1 where id=new.cid;
- END;
+--  CREATE TRIGGER tri_addLend
+--  AFTER INSERT
+--  ON lend
+--  FOR EACH ROW
+--  BEGIN
+--  	UPDATE dvd SET count=count-1 where id=new.did;
+--  	UPDATE dvd SET state='已租完' where count=0 and id=new.did;
+--  	UPDATE custom SET lendcount=lendcount+1,sumcount=sumcount+1 where id=new.cid;
+--  END;
+-- 
+--  CREATE TRIGGER tri_backLend
+--  AFTER UPDATE
+--  ON lend
+--  FOR EACH ROW
+--  BEGIN
+--  	UPDATE dvd SET count=count+1,state='可租' where id=new.did;
+--  	UPDATE custom SET lendcount=lendcount-1 where id=new.cid;
+--  END;
