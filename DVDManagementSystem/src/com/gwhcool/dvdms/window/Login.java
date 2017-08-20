@@ -1,6 +1,5 @@
 package com.gwhcool.dvdms.window;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +14,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import com.gwhcool.dvdms.service.EmployeeService;
 import com.gwhcool.dvdms.service.impl.EmployeeServiceImpl;
+import com.gwhcool.dvdms.util.MySystemUtil;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -31,22 +31,6 @@ public class Login {
 	private JFrame loginFrame;
 	private JTextField usernameTextField;
 	private JTextField passwordTextField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login window = new Login();
-					window.loginFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -88,12 +72,7 @@ public class Login {
 		usernameTextField.setColumns(10);
 		usernameTextField.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent k) {
-				int keyChar = k.getKeyChar();
-				if (keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {
-
-				} else {
-					k.consume();
-				}
+				MySystemUtil.InputNumber(k);
 			}
 		});
 		loginFrame.getContentPane().add(usernameTextField);

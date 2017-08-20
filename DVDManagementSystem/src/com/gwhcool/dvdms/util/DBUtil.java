@@ -119,7 +119,7 @@ public class DBUtil<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> changeObjListToStuList(List<Object> listObj) {
+	public List<T> changeObjListToTList(List<Object> listObj) {
 		List<T> lists = new LinkedList<>();
 		for (Object object : listObj) {
 			lists.add((T) object);

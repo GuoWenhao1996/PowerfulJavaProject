@@ -1,5 +1,6 @@
 package com.gwhcool.dvdms.util;
 
+import java.awt.event.KeyEvent;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -52,6 +53,21 @@ public class MySystemUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
+		}
+	}
+
+	/**
+	 * 只接收用户输入的数字
+	 * 
+	 * @param k
+	 *            键盘响应事件参数
+	 */
+	public static void InputNumber(KeyEvent k) {
+		int keyChar = k.getKeyChar();
+		if (keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {
+
+		} else {
+			k.consume();
 		}
 	}
 }

@@ -6,23 +6,52 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.GridLayout;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import com.gwhcool.dvdms.entity.DVD;
+import com.gwhcool.dvdms.service.DVDService;
+import com.gwhcool.dvdms.service.impl.DVDServiceImpl;
+import com.gwhcool.dvdms.util.MySystemUtil;
+
 import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.JTable;
 
 public class MainFrame {
 
+	private DVDService ds = new DVDServiceImpl();
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	private JFrame mainFrame;
+	private JTextField dvdIdTextField;
+	private JTextField dvdNameTextField;
+
+	private JTable dvdTable;
+	private JScrollPane dvdScrollpane = new JScrollPane();
+	private Vector dvdRowData = new Vector();
+	private Vector dvdColumName = new Vector();
 
 	/**
 	 * Create the application.
@@ -47,7 +76,7 @@ public class MainFrame {
 				if (choose == 0) {
 					JOptionPane.showMessageDialog(null, "系统即将安全退出！", "提示", JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
-				}else{
+				} else {
 					mainFrame.setVisible(true);
 				}
 			}
@@ -90,9 +119,102 @@ public class MainFrame {
 		JPanel lookDVDPanel = new JPanel();
 		lookDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		dvdContentPanel.add(lookDVDPanel, "name_lookDVDPanel");
+		lookDVDPanel.setLayout(null);
 
-		JLabel label = new JLabel("11111");
-		lookDVDPanel.add(label);
+		JLabel lblDvd = new JLabel("DVD编号：");
+		lblDvd.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblDvd.setBounds(125, 2, 81, 30);
+		lookDVDPanel.add(lblDvd);
+
+		dvdIdTextField = new JTextField();
+		dvdIdTextField.setBounds(204, 7, 109, 21);
+		lookDVDPanel.add(dvdIdTextField);
+		dvdIdTextField.setColumns(10);
+		dvdIdTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent k) {
+				MySystemUtil.InputNumber(k);
+			}
+		});
+
+		dvdNameTextField = new JTextField();
+		dvdNameTextField.setColumns(10);
+		dvdNameTextField.setBounds(419, 7, 109, 21);
+		lookDVDPanel.add(dvdNameTextField);
+
+		JLabel lblDvd_1 = new JLabel("DVD名称：");
+		lblDvd_1.setFont(new Font("幼圆", Font.PLAIN, 18));
+		lblDvd_1.setBounds(339, 1, 81, 30);
+		lookDVDPanel.add(lblDvd_1);
+
+		JButton lookDvdContentbutton = new JButton("查询");
+		lookDvdContentbutton.setBounds(597, 0, 93, 28);
+		lookDVDPanel.add(lookDvdContentbutton);
+		lookDvdContentbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dvdRowData.clear();
+				dvdColumName.clear();
+				dvdColumName.add("编号");
+				dvdColumName.add("名称");
+				dvdColumName.add("状态");
+				dvdColumName.add("剩余数量");
+				dvdColumName.add("下架时间");
+				dvdColumName.add("添加人工号");
+				List<DVD> dvds = new LinkedList<>();
+				if (dvdIdTextField.getText().isEmpty()) {
+					if (dvdNameTextField.getText().isEmpty()) {
+						// 查全部
+						dvds = ds.getALLDVD();
+					} else {
+						String name = dvdNameTextField.getText();
+						dvds = ds.getDVDByName(name);
+					}
+				} else {
+					int id = Integer.parseInt(dvdIdTextField.getText());
+					dvds = ds.getDVDByid(id);
+				}
+
+				for (DVD dvd : dvds) {
+					Vector vNext = new Vector();
+					vNext.add(dvd.getId());
+					vNext.add(dvd.getName());
+					vNext.add(dvd.getState());
+					vNext.add(dvd.getCount());
+					String timestr;
+					if (dvd.getDatetime() != null) {
+						timestr = sdf.format(dvd.getDatetime());
+					} else {
+						timestr = "";
+					}
+					vNext.add(timestr);
+					vNext.add(dvd.getEid());
+					dvdRowData.add(vNext);
+				}
+				dvdTable = new JTable(dvdRowData, dvdColumName);
+				dvdTable.setBackground(SystemColor.info);
+				dvdTable.setBounds(10, 36, 806, 377);
+				dvdTable.setFont(new Font("幼圆", Font.PLAIN, 14));
+				dvdTable.setEnabled(false);
+				dvdTable.getColumnModel().getColumn(0).setPreferredWidth(160);
+				dvdTable.getColumnModel().getColumn(1).setPreferredWidth(166);
+				dvdTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+				dvdTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+				dvdTable.getColumnModel().getColumn(4).setPreferredWidth(160);
+				dvdTable.getColumnModel().getColumn(5).setPreferredWidth(160);
+				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+				renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+				dvdTable.setDefaultRenderer(Object.class, renderer);
+				dvdTable.setPreferredScrollableViewportSize(dvdTable.getSize());
+				dvdTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+				dvdScrollpane.setEnabled(false);
+				dvdScrollpane.setBounds(10, 36, 806, 377);
+				dvdScrollpane.setBackground(SystemColor.window);
+				dvdScrollpane.add(dvdTable);
+				dvdScrollpane.setViewportView(dvdTable);
+				lookDVDPanel.add(dvdScrollpane);
+			}
+		});
+		lookDvdContentbutton.setFont(new Font("幼圆", Font.BOLD, 18));
+		lookDvdContentbutton.setBackground(SystemColor.inactiveCaptionBorder);
 
 		JPanel lendDVDPanel = new JPanel();
 		lendDVDPanel.setBackground(SystemColor.inactiveCaptionBorder);
