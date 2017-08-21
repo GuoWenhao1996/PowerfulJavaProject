@@ -368,9 +368,9 @@ public class MainFrame {
 				lendRowData.clear();
 				lendColumName.clear();
 				lendColumName.add("DVD编号");
-				// lendColumName.add("DVD名称");
+				lendColumName.add("DVD名称");
 				lendColumName.add("借阅人编号");
-				// lendColumName.add("借阅人姓名");
+				lendColumName.add("借阅人姓名");
 				lendColumName.add("借阅时间");
 				lendColumName.add("归还时间");
 				List<Lend> lends = new LinkedList<>();
@@ -385,9 +385,9 @@ public class MainFrame {
 					@SuppressWarnings("rawtypes")
 					Vector vNext = new Vector();
 					vNext.add(lend.getDid());
-					// vNext.add(ds.getDVDByid(lend.getDid()).get(0).getName());
+					vNext.add(ds.getDVDByid(lend.getDid()).get(0).getName());
 					vNext.add(lend.getCid());
-					// vNext.add(cs.getCustomByid(lend.getCid()).get(0).getName());
+					vNext.add(cs.getCustomByid(lend.getCid()).get(0).getName());
 					String timestr;
 					if (lend.getLendtime() != null) {
 						timestr = sdf.format(lend.getLendtime());
@@ -408,12 +408,12 @@ public class MainFrame {
 				lendTable.setBounds(10, 78, 806, 335);
 				lendTable.setFont(new Font("幼圆", Font.PLAIN, 14));
 				lendTable.setEnabled(false);
-				lendTable.getColumnModel().getColumn(0).setPreferredWidth(200);
-				// lendTable.getColumnModel().getColumn(1).setPreferredWidth(160);
-				lendTable.getColumnModel().getColumn(1).setPreferredWidth(200);
-				// lendTable.getColumnModel().getColumn(3).setPreferredWidth(120);
-				lendTable.getColumnModel().getColumn(2).setPreferredWidth(200);
-				lendTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+				lendTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+				lendTable.getColumnModel().getColumn(1).setPreferredWidth(126);
+				lendTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+				lendTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+				lendTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+				lendTable.getColumnModel().getColumn(5).setPreferredWidth(200);
 				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 				renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 				lendTable.setDefaultRenderer(Object.class, renderer);
@@ -506,9 +506,9 @@ public class MainFrame {
 				returnRowData.clear();
 				returnColumName.clear();
 				returnColumName.add("DVD编号");
-				// returnColumName.add("DVD名称");
+				 returnColumName.add("DVD名称");
 				returnColumName.add("借阅人编号");
-				// returnColumName.add("借阅人姓名");
+				 returnColumName.add("借阅人姓名");
 				returnColumName.add("借阅时间");
 				returnColumName.add("归还时间");
 				List<Lend> lends = new LinkedList<>();
@@ -523,9 +523,9 @@ public class MainFrame {
 					@SuppressWarnings("rawtypes")
 					Vector vNext = new Vector();
 					vNext.add(lend.getDid());
-					// vNext.add(ds.getDVDByid(lend.getDid()).get(0).getName());
+					 vNext.add(ds.getDVDByid(lend.getDid()).get(0).getName());
 					vNext.add(lend.getCid());
-					// vNext.add(cs.getCustomByid(lend.getCid()).get(0).getName());
+					 vNext.add(cs.getCustomByid(lend.getCid()).get(0).getName());
 					String timestr;
 					if (lend.getLendtime() != null) {
 						timestr = sdf.format(lend.getLendtime());
@@ -546,12 +546,12 @@ public class MainFrame {
 				returnTable.setBounds(10, 78, 806, 335);
 				returnTable.setFont(new Font("幼圆", Font.PLAIN, 14));
 				returnTable.setEnabled(false);
-				lendTable.getColumnModel().getColumn(0).setPreferredWidth(200);
-				// lendTable.getColumnModel().getColumn(1).setPreferredWidth(160);
-				lendTable.getColumnModel().getColumn(1).setPreferredWidth(200);
-				// lendTable.getColumnModel().getColumn(3).setPreferredWidth(120);
-				lendTable.getColumnModel().getColumn(2).setPreferredWidth(200);
-				lendTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+				returnTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+				returnTable.getColumnModel().getColumn(1).setPreferredWidth(126);
+				returnTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+				returnTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+				returnTable.getColumnModel().getColumn(4).setPreferredWidth(200);
+				returnTable.getColumnModel().getColumn(5).setPreferredWidth(200);
 				DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 				renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 				returnTable.setDefaultRenderer(Object.class, renderer);

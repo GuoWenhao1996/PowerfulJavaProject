@@ -1,6 +1,5 @@
 2017-8-19 18:53:42
-【DVDManagementSystem】中为GUI版本的DVD租赁管理系统项目源码与数据库备份和一个可直接运行的jar包，项目架构为entity-dao-service-window，util作为辅助工具，config为配置设置，lib里为系统依赖的jar包。数据是存在mysql数据库中的。整个项目采用自封装的JDBC框架，框架中包含DML和DQL操作，以及c3p0的线程池,其中最大连接数设为15，最小连接数为10。项目开始时间为2017-8-19 13:40:49，项目结束时间为2017-8-20 23:31:17。此项目有严重的bug，会莫名其妙的卡死！
-
+【DVDManagementSystem】中为GUI版本的DVD租赁管理系统项目源码与数据库备份和一个可直接运行的jar包，项目架构为entity-dao-service-window，util作为辅助工具，config为配置设置，lib里为系统依赖的jar包。数据是存在mysql数据库中的。整个项目采用自封装的JDBC框架，框架中包含DML和DQL操作，以及c3p0的线程池,其中最大连接数设为15，最小连接数为10。项目开始时间为2017-8-19 13:40:49，项目结束时间为2017-8-20 23:31:17。此项目有严重的bug，会莫名其妙的卡死！（此bug于2017-8-21 10:45:12优化，目前只有很极端的情况下会卡死）
 
 2017-8-12 17:53:02
 【StudentCourseMS】中为控制台下的学生课程管理系统项目源码与本项目的API文档和一个可在命令行中运行的jar包，项目初期架构为entity-window-service-util-data-start，其中数据是存在文件中的，以object存储，先将内存中的数据利用ObjectOutputStream流存入数据文件，然后以ObjectInputStream流将对象数据直接读取至内存中以list存储，利用list进行操作。项目开始时间为2017-8-12 17:59:22，项目结束时间为2017-8-13 22:09:37。

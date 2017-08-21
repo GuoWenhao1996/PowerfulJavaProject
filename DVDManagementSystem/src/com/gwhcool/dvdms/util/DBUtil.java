@@ -45,7 +45,7 @@ public class DBUtil<T> {
 			dataSource.setUser(username);
 			dataSource.setPassword(password);
 			dataSource.setMinPoolSize(10);
-			dataSource.setMaxPoolSize(15);
+			dataSource.setMaxPoolSize(100000);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (PropertyVetoException e) {
