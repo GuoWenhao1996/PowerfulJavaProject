@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>欢迎使用gds简历管理系统</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<script src="js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.errLabel {
+				font-size: 10px;
+				color: red;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #fedcbd;">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<form id="form" action="/ResumeMS/login" method="post" style="background-color: #deab8a; width: 600px; height:380px; margin:130px auto 0px; border-radius: 20px;">
+						<div class="col-md-8 col-md-offset-3" style="margin-top: 10px;">
+							<h3>欢迎使用gds个人简历系统</h3>
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 10px; font-size: 16px;">
+							<label>用户名：</label>
+							<input class="form-control" type="text" name="username" id="username" value="" placeholder="请输入字母数字或下划线组成的用户名" />
+							<label class="errLabel">　</label>
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 20px; font-size: 16px;">
+							<label>密码：</label>
+							<input class="form-control" type="password" name="password" id="password" value="" placeholder="请输入密码" />
+							<label class="errLabel">　</label>
+						</div>
+						<div class="col-md-3 col-md-offset-3" class="form-group" style="margin-top:20px; font-size: 16px;">
+							<label>验证码：</label>
+							<input class="form-control" type="text" name="yzm" id="yzminput" value="" placeholder="请输入验证码" />
+							<label class="errLabel">　</label>
+						</div>
+						<div class="col-md-3" style="margin-top: 47px;">
+							<canvas id="yzm" width="120" height="35" onclick="str_yzm=getYzm()"></canvas>
+						</div>
+						<div class="col-md-6 col-md-offset-3" style="margin-top: 20px; font-size: 16px;">
+							<input class="btn btn-primary" type="submit" id="submit" name="submit" style="margin: 0px 50px;" />
+							<input class="btn btn-info" type="reset" value="重置" />
+						</div>
+					</form>
+					<script src="js/yzm.js" type="text/javascript" charset="utf-8"></script>
+					<script src="js/checkForm.js" type="text/javascript" charset="utf-8"></script>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
