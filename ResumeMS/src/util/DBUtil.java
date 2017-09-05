@@ -1,4 +1,4 @@
-package util;
+﻿package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +16,7 @@ public class DBUtil {
 	public static Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			return DriverManager.getConnection("jdbc:mysql://localhost:3306/resume_ms?charaterEncoding=utf-8", "root",
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/resume_ms?characterEncoding=utf-8", "root",
 					"root");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
