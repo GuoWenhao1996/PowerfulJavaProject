@@ -41,7 +41,7 @@
 		<tr>
 			<td></td>
 			<td><%=f.getName() %></td>
-			<td><%=f.getBirthday() %></td>
+			<td><%=f.getBirthday()==null?"":f.getBirthday() %></td>
 			<td><%=f.getSex()==1?"男":"女" %></td>
 			<td><%=f.getTelephone() %></td>
 			<td><%=f.getQq() %></td>

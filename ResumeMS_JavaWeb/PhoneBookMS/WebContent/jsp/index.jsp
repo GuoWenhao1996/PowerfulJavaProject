@@ -1,3 +1,4 @@
+<%@page import="entity.User"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -24,7 +25,7 @@
 
 <body class="easyui-layout">
 	<div data-options="region:'north'" style="height: 100px;">
-		<img class="logo" src="/PhoneBookMS/img/icon.png" alt="logo"/>
+		<img class="logo" src="<%=((User)session.getAttribute("user")).getUrl() %>" alt="头像"/>
 		<h1 align="center" style="font-size: 30px;">
 			中 软 国 际<sup>&reg;</sup>网 络 通 讯 录 系 统&trade;
 		</h1>

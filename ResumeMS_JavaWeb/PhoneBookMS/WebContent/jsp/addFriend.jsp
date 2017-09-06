@@ -67,7 +67,7 @@
 		<a id="save" href="#" class="easyui-linkbutton"	data-options="iconCls:'icon-save'">保存</a>
 		<a id="clear" href="" class="easyui-linkbutton" data-options="iconCls:'icon-clear'">清空</a>
 	</form>
-	<span><%=request.getAttribute("addInfo") == null ? "" : request.getAttribute("addInfo").toString()%></span>
+	<span id="addInfo"></span>
 	<script type="text/javascript">
 		$.extend($.fn.validatebox.defaults.rules, {
 			telephone : {
@@ -103,15 +103,13 @@
 				return isValid; // 返回false终止表单提交
 			},
 			success : function() {
-				$('#addFriendFrom input:eq(0)').val("");
-				$('#birthday').datebox('setValue', '');
-				$('#addFriendFrom input:eq(4)').val("");
-				$('#addFriendFrom input:eq(5)').val("");
-				$('#addFriendFrom input:eq(6)').val("");
-				$('#addFriendFrom input:eq(7)').val("");
 				setTimeout(function() {
 					$.messager.progress('close');
 				}, 300);
+				/*重置表单*/
+				$('#addFriendFrom')[0].reset();
+				$.messager.alert('ok', '添加成功！');
+
 			}
 		});
 	</script>

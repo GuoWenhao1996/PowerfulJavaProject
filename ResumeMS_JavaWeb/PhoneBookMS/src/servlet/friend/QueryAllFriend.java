@@ -29,11 +29,15 @@ public class QueryAllFriend extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-		int uid = ((User) req.getSession().getAttribute("user")).getUid();
-		List<Object> objs = DBUtil.operateDQL(Friend.class, "select * from friend where uid=?", uid);
-		DBUtil<Friend> db = new DBUtil<>();
-		List<Friend> friends = db.changeObjListToTList(objs);
-		req.setAttribute("friends",friends);
-		req.getRequestDispatcher("/jsp/queryFriend.jsp").forward(req, resp);
+		if (req.getSession().getAttribute("user") == null) {
+			resp.sendRedirect("/PhoneBookMS/login.jsp");
+		} else {
+			int uid = ((User) req.getSession().getAttribute("user")).getUid();
+			List<Object> objs = DBUtil.operateDQL(Friend.class, "select * from friend where uid=?", uid);
+			DBUtil<Friend> db = new DBUtil<>();
+			List<Friend> friends = db.changeObjListToTList(objs);
+			req.setAttribute("friends", friends);
+			req.getRequestDispatcher("/jsp/queryFriend.jsp").forward(req, resp);
+		}
 	}
 }

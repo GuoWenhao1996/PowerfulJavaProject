@@ -37,11 +37,14 @@ public class AddFriend extends HttpServlet {
 		int uid = ((User) req.getSession().getAttribute("user")).getUid();
 		boolean flag = DBUtil.operateDML(
 				"insert into friend (name,birthday,telephone,sex,qq,email,address,uid) values(?,?,?,?,?,?,?,?)", name,
-				birthday, telephone, sex, qq, email, address, uid);
+				birthday.equals("")?null:birthday, telephone, sex, qq, email, address, uid);
 		if (flag) {
-			req.setAttribute("addInfo", "添加成功！");
+			System.out.println("添加成功");
+			req.setAttribute("addInfo", "addInfo:添加成功！");
+			System.out.println(req.getAttribute("addInfo"));
 			req.getRequestDispatcher("/jsp/addFriend.jsp").forward(req, resp);
 		} else {
+			System.out.println("添加失败");
 			req.setAttribute("addInfo", "添加失败！");
 			req.getRequestDispatcher("/jsp/addFriend.jsp").forward(req, resp);
 		}
