@@ -10,10 +10,12 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-09-07 11:53:53
+Date: 2017-09-07 19:07:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
@@ -34,8 +36,8 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin1', 'admin1', '小白', '18888888888', '18811312@qq.com', '重庆市南岸区啦啦啦啦啦', '/PhoneBookMS/img/default.png');
-INSERT INTO `user` VALUES ('2', 'hahaha', 'hahaha', '哈哈哈', '1331111222', '131312312@qq.com', '四川省成都市天府广场', '/PhoneBookMS/img/default2.png');
+INSERT INTO `user` VALUES ('1', 'admin1', 'admin1', '小白', '18888888888', '18811312@qq.com', '重庆市南岸区啦啦啦啦啦', '/MVC_PhoneBookMS/view/img/default.png');
+INSERT INTO `user` VALUES ('2', 'hahaha', 'hahaha', '哈哈哈', '1331111222', '131312312@qq.com', '四川省成都市天府广场', '/MVC_PhoneBookMS/view/img/default2.png');
 
 -- ----------------------------
 -- Table structure for friend
@@ -54,7 +56,7 @@ CREATE TABLE `friend` (
   PRIMARY KEY (`fid`),
   KEY `uid` (`uid`),
   CONSTRAINT `friend_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of friend
@@ -86,3 +88,4 @@ INSERT INTO `friend` VALUES ('24', '周杰伦2', '2017-09-03', '18666666666', '1
 INSERT INTO `friend` VALUES ('25', '周杰伦5', '2017-08-29', '13434343434', '1', '12222', '18666666666@qq.com', '111111', '1');
 INSERT INTO `friend` VALUES ('26', '灭绝师太2', '2017-08-28', '18112121212', '2', '18666666666', '18666666666@qq.com', '111213', '1');
 INSERT INTO `friend` VALUES ('27', '张无忌1', '2017-08-27', '13434343434', '1', '12222', '18666666666@qq.com', '1', '1');
+INSERT INTO `friend` VALUES ('28', '张无忌22', null, '13122221111', '2', '', '', '', '1');
