@@ -1,5 +1,5 @@
 2017-9-6 08:47:07
-【ResumeMS_JavaWeb】中为JavaWeb下的一个通讯录项目源码及数据库备份文件。系统前端使用bootstrap和easyui实现，后台采用jdbc+mysql，服务器用jsp+servlet开发。此项目为servlet的探索开发，边学习变练习，所以开发进度会比较慢.项目开始时间为2017-9-5 19:00:48，项目暂未结束。
+【PhoneBookMS_JavaWeb】中为JavaWeb下的一个通讯录项目源码及数据库备份文件。系统前端使用bootstrap和easyui实现，后台采用jdbc+mysql，服务器用jsp+servlet开发。此项目为servlet的探索开发，边学习变练习，所以开发进度会比较慢.项目开始时间为2017-9-5 19:00:48，项目暂未结束。
 
 2017-9-3 01:14:24
 【ResumeMS】中为WEB版本的个人简历管理系统项目源码与数据库备份。系统前端采用bootstrap前端框架，jQuery版本为jquery-1.11.0.min，并加入jquery.validate表单验证，验证码用canvas编写，随机内容、颜色、干扰点线，实现细节见\ResumeMS\WebContent\js\yzm.js。数据库部分采用mysql数据库，库中存储了用户登录信息和简历信息。后端采用servlet，前端将验证通过的表单拿到后端进行账号密码匹配，登陆失败直接返回登录页面，登录成功后将用户的简历信息填到统一的简历模板中。总的来说算是一个比较简单的项目。项目开始时间为2017-9-2 22:21:36，项目结束时间为2017-9-3 01:15:41。
