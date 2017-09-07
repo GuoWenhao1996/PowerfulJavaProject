@@ -1,7 +1,8 @@
-<%@page import="entity.Friend"%>
-<%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page import="entity.Friend"%>
+<%@ page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -34,7 +35,38 @@
 			</tr>
 		</thead>
 		<tbody>
-		<%
+		<c:forEach items="${requestScope.friends}" var="friend">
+			<tr>
+				<td></td>
+				<td>${friend.name}</td>
+				<td>
+					<fmt:formatDate value="${friend.birthday}" pattern="yyyy年MM月dd日"/>
+				</td>
+				<td>
+					<%--
+					<c:if test="${friend.sex==1}">
+						男
+					</c:if>
+					<c:if test="${friend.sex!=1}">
+						女
+					</c:if>--%>
+					<c:choose>
+						 <c:when test="${friend.sex==1}">
+						 	男
+						 </c:when>
+						 <c:otherwise>
+						 	女
+						 </c:otherwise>
+					</c:choose>
+				</td>
+				<td>${friend.telephone}</td>
+				<td>${friend.qq}</td>
+				<td>${friend.qq}</td>
+				<td>${friend.address}</td>
+			</tr>
+		</c:forEach>
+			
+		<%-- <%
 			List<Friend> friends = (List<Friend>)request.getAttribute("friends");
 			for(Friend f:friends){
 		%>
@@ -50,7 +82,7 @@
 		</tr>			
 		<%		
 			}
-		%>
+		%> --%>
 		</tbody>
 	</table>
 		<script type="text/javascript">

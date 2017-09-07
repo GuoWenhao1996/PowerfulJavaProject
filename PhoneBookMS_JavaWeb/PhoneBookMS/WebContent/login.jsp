@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -29,7 +30,8 @@
 					<div class="col-md-8 col-md-offset-3" style="margin-top: 10px; height: 70px">
 						<h3>欢迎使用网络通讯录系统</h3>
 						<h4 class="text-danger" style="margin-left:60px">
-							<%=request.getAttribute("loginInfo") == null ? "" : request.getAttribute("loginInfo").toString()%>
+							${requestScope.loginInfo}
+							<%--<%=request.getAttribute("loginInfo") == null ? "" : request.getAttribute("loginInfo").toString()%> --%>
 						</h4>
 					</div>
 					<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">

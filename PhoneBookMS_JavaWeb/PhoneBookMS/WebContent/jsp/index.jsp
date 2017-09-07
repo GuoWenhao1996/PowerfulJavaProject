@@ -25,7 +25,8 @@
 
 <body class="easyui-layout">
 	<div data-options="region:'north'" style="height: 100px;">
-		<img class="logo" src="<%=((User)session.getAttribute("user")).getUrl() %>" alt="头像"/>
+		<%--<img class="logo" src="<%=((User)session.getAttribute("user")).getUrl() %>" alt="头像"/> --%>
+		<img class="logo" src="${sessionScope.user.url}" alt="头像"/>
 		<h1 align="center" style="font-size: 30px;">
 			中 软 国 际<sup>&reg;</sup>网 络 通 讯 录 系 统&trade;
 		</h1>
