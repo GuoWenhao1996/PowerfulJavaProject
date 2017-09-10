@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>注册商旅会员卡</title>
+		<link rel="icon" href="/VIPCardMS/img/logo.png" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/bootstrap.min.css" />
+		<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/VIPCardMS/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.errLabel {
+				font-size: 10px;
+				color: red;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #7bbfea;">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<form style="background-color: #afdfe4; width: 600px; height: 880px; margin: 130px auto 130px; border-radius: 20px;">
+						<div class="col-md-6 col-md-offset-3" style="margin-top: 10px; height: 70px">
+							<h3 class="text-center">注册一张自己的会员卡</h3>
+							<h4 id="error" class="text-danger text-center">
+							　
+							</h4>
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>用户名：</label>
+							<input onblur="checkUsername()" class="form-control" type="text" name="username" id="username" value="" placeholder="请输入字母数字或下划线组成的用户名" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 20px; font-size: 16px;">
+							<label>密码：</label>
+							<input class="form-control" type="password" name="passwordA" id="passwordA" value="" placeholder="请输入密码" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 20px; font-size: 16px;">
+							<label>确认密码：</label>
+							<input class="form-control" type="password" name="passwordB" id="passwordB" value="" placeholder="请输入确认密码" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>真实姓名：</label>
+							<input class="form-control" type="text" name="name" id="name" value="" placeholder="请输入您的真实姓名" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>性别：</label><br />
+							<input type="radio" name="sex" id="man" value="1" checked/>男
+							<input type="radio" name="sex" id="woman" value="2" style="margin-left: 10px;" />女
+
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>地址：</label>
+							<input class="form-control" type="text" name="address" id="address" value="" placeholder="请输入您的联系地址" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>电话号码：</label>
+							<input class="form-control" type="text" name="telephone" id="telephone" value="" placeholder="请输入您的电话号码" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>E-mail：</label>
+							<input class="form-control" type="text" name="email" id="email" value="" placeholder="请输入您的电子邮箱" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>信用卡号码：</label>
+							<input class="form-control" type="text" name="creditcard" id="creditcard" value="" placeholder="请输入您的信用卡号码" />
+						</div>
+						<div class="col-md-6 col-md-offset-3" style="margin-top: 35px; font-size: 16px;">
+							<input disabled onclick="checkReg()" class="btn btn-primary" type="button" value="注册" id="reg" name="reg" style="margin: 0px 20px;" />
+							<a href="/VIPCardMS/html/login.html">已有账号？点我登录！</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function checkUsername() {
+			var username=$('#username').val();
+			$.post("/VIPCardMS/user/checkUsername",{username:username},function(data){
+				if(data=='true'){
+					$('#reg').attr("disabled",false);
+					$('#error').text("用户名可用");
+				}else{
+					$('#reg').attr("disabled",true);
+					$('#error').text(data);
+				}
+			},"text");
+		}
+		function checkReg() {
+			var username=$('#username').val();
+			var passwordA=$('#passwordA').val();
+			var passwordB=$('#passwordB').val();
+			var name=$('#name').val();
+			var sex;
+			if($("#man")[0].checked){
+				sex=1;
+			}else{
+				sex=2;
+			}
+			var address=$('#address').val();
+			var telephone=$('#telephone').val();
+			var email=$('#email').val();
+			var creditcard=$('#creditcard').val();
+			$.post("/VIPCardMS/user/reg",{username:username,passwordA:passwordA,passwordB:passwordB,name:name,sex:sex,address:address,telephone:telephone,email:email,creditcard:creditcard},function(data){
+				$('#error').text(data);
+				if(data=='true'){
+					location.href="/VIPCardMS/html/login.html";
+				}else{
+					location.href = "#";			
+				}
+			},"text");
+		}
+	</script>
+
+</html>

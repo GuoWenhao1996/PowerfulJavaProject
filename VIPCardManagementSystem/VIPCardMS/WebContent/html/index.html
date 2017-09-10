@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>后台管理|商旅会员卡系统</title>
+		<link rel="icon" href="/VIPCardMS/img/logo.png" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/index.css" />
+		<!--JS脚本-->
+		<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/VIPCardMS/js/listjs.js"></script>
+		<script type="text/javascript">
+			function logout() {
+				$.post("/VIPCardMS/user/logout");
+				location.href="/VIPCardMS/html/login.html";
+			}
+		</script>
+	</head>
+
+	<body>
+		<header>
+			<article class="log"></article>
+			<article class="header-title">商旅会员卡后台管理</article>
+			<article class="btn-close" onclick="logout()">注 销</article>
+		</header>
+		<section id="pageBody">
+			<aside>
+				<!--无序列表，用于制作导航菜单-->
+				<ul>
+					<li id="001" onclick="openOrCloseMenu(this)"><a href="#" class="active">会员卡报表</a></li>
+					<li name="001"><a href="/VIPCardMS/html/backPages/allMainCard.html" target="mainFrame">正式卡</a></li>
+					<li name="001"><a href="/VIPCardMS/html/backPages/allLowCard.html" target="mainFrame">临时卡</a></li>
+					<li id="002" onclick="openOrCloseMenu(this)"><a href="#" class="active">会员信息报表</a></li>
+					<li name="002"><a href="/VIPCardMS/html/backPages/allUsers.html" target="mainFrame">会员个人资料</a></li>
+					<li name="002"><a href="/VIPCardMS/html/backPages/UsersCount.html" target="mainFrame">会员积分报表</a></li>
+					<li name="002"><a href="/VIPCardMS/html/backPages/UsersCost.html" target="mainFrame">会员消费记录</a></li>
+					<li id="003" onclick="openOrCloseMenu(this)"><a href="#" class="active">会员管理</a></li>
+					<li name="003"><a href="/VIPCardMS/html/default.html" target="mainFrame">查询用户</a></li>
+					<li name="003"><a href="/VIPCardMS/html/default.html" target="mainFrame">注销用户</a></li>
+					<li id="004" onclick="openOrCloseMenu(this)"><a href="#" class="active">充值与等级管理</a></li>
+					<li name="004"><a href="/VIPCardMS/html/default.html" target="mainFrame">充值奖励管理</a></li>
+					<li name="004"><a href="/VIPCardMS/html/default.html" target="mainFrame">充值卡管理</a></li>
+					<li name="004"><a href="/VIPCardMS/html/default.html" target="mainFrame">会员等级管理</a></li>
+					<li name="004"><a href="/VIPCardMS/html/default.html" target="mainFrame">消费奖励管理</a></li>
+					<li name="004"><a href="/VIPCardMS/html/default.html" target="mainFrame">自动升级管理</a></li>
+				</ul>
+			</aside>
+			<section>
+				<iframe src="/VIPCardMS/html/default.html" id="mainFrame" name="mainFrame" width="100%" height="100%" frameborder="no" />
+			</section>
+		</section>
+	</body>
+</html>

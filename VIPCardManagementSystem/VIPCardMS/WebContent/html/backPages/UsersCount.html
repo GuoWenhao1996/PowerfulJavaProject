@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css"
+	href="/VIPCardMS/css/bootstrap.min.css" />
+<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="/VIPCardMS/js/bootstrap.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<!--<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/edit.css"/>-->
+<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/listcss.css" />
+</head>
+
+<body>
+	<header>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="javascript:history.go(-1);">会员积分</a></li>
+		</ul>
+	</header>
+	<section>
+		<article class="text-center">
+			<button onclick="loadUser('2','青铜会员')" style="margin-right: 10px" class="btn btn-success btn-sm">青铜会员</button>
+			<button onclick="loadUser('3','白银会员')" style="margin-right: 10px" class="btn btn-success btn-sm">白银会员</button>
+			<button onclick="loadUser('4','黄金会员')" style="margin-right: 10px" class="btn btn-success btn-sm">黄金会员</button>
+			<button onclick="loadUser('5','铂金会员')" style="margin-right: 10px" class="btn btn-success btn-sm">铂金会员</button>
+			<button onclick="loadUser('6','钻石会员')" style="margin-right: 10px" class="btn btn-success btn-sm">钻石会员</button>
+		</article><br/>
+		<form>
+			<table class="table table-bordered table-hover">
+				<tr>
+					<th>序号</th>
+					<th>会员卡号</th>
+					<th>用户名</th>
+					<th>积分</th>
+					<th>领卡时间</th>
+					<th>会员等级</th>
+				</tr>
+			</table>
+		</form>
+	</section>
+</body>
+<script type="text/javascript">
+	function parseNum(num) {
+		if (num < 10) {
+			return "0" + num;
+		}
+		return num;
+	}
+
+	function getDate(obj) {
+		return 1900 + obj.year + "-" + parseNum(obj.month + 1) + "-"
+				+ parseNum(obj.date) + " " + parseNum(obj.hours) + ":"
+				+ parseNum(obj.minutes) + ":" + parseNum(obj.seconds);
+	}
+	function loadUser(type,desc){
+		$.post('/VIPCardMS/back/queryUserByType?cardtype='+type, function(data) {
+			$('table tr:not(:eq(0))').remove();
+			for (var i = 0; i < data.length; i++) {
+				$('table').append(
+						'<tr><td>' + (i + 1) + '</td><td>' 
+								+ data[i].cardid + '</td><td>'
+								+ data[i].username+ '</td><td>' 
+								+ data[i].count + '</td><td>'
+								+ getDate(data[i].jointime) + '</td><td>'
+								+ desc + '</td></tr>');
+			}
+		}, 'json');
+	}
+
+	$(function() {
+		loadUser(0,"会员卡");
+	});
+	
+</script>
+</html>

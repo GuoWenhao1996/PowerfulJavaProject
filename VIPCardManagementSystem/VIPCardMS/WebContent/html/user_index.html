@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商旅会员卡</title>
+		<link rel="icon" href="/VIPCardMS/img/logo.png" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/index.css" />
+		<!--JS脚本-->
+		<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/VIPCardMS/js/listjs.js"></script>
+		<script type="text/javascript">
+			function logout() {
+				$.post("/VIPCardMS/user/logout");
+				location.href="/VIPCardMS/html/login.html";
+			}
+		</script>
+	</head>
+
+	<body>
+		<header>
+			<article class="log"></article>
+			<article class="header-title">商务旅游网站会员卡系统</article>
+			<article class="btn-close" onclick="logout()">注 销</article>
+		</header>
+		<section id="pageBody">
+			<aside>
+				<!--无序列表，用于制作导航菜单-->
+				<ul>
+					<li id="001" onclick="openOrCloseMenu(this)"><a href="#" class="active">信息管理</a></li>
+					<li name="001"><a href="/VIPCardMS/html/userPages/showInfo.html" target="mainFrame">个人信息</a></li>
+					<li name="001"><a href="/VIPCardMS/html/userPages/updateInfo.html" target="mainFrame">信息修改</a></li>
+					<li name="001"><a href="/VIPCardMS/html/userPages/updatePassword.html" target="mainFrame">账户安全</a></li>
+					<li id="002" onclick="openOrCloseMenu(this)"><a href="#" class="active">充值与消费</a></li>
+					<li name="002"><a href="/VIPCardMS/html/userPages/costMoney.html" target="mainFrame">产品购买</a></li>
+					<li name="002"><a href="/VIPCardMS/html/userPages/addMoney.html" target="mainFrame">账户充值</a></li>
+					<li name="002"><a href="/VIPCardMS/html/userPages/LookUserCount.html" target="mainFrame">积分排行榜</a></li>
+				</ul>
+			</aside>
+			<section>
+				<iframe src="/VIPCardMS/html/userPages/usermain.html" id="mainFrame" name="mainFrame" width="100%" height="100%" frameborder="no" />
+			</section>
+		</section>
+	</body>
+</html>

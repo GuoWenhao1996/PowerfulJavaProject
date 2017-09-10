@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/bootstrap.min.css" />
+		<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/VIPCardMS/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/edit.css"/>
+		<!--<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/listcss.css" />-->
+
+	</head>
+
+	<body>
+		<header>
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="javascript:history.go(-1);">修改个人信息</a></li>
+			</ul>
+		</header>
+		<section>
+			<form id="form" name="form">
+				<dl>
+					<dt>修改个人信息</dt>
+					<dd>
+						<label>用户名：</label>
+						<input onblur="checkUsername()" type="text" id="username" name="username" placeholder="请输入用户名!" required autofocus class="form-control input-sm" value="Tom" />
+					</dd>
+					<dd>
+						<label>真实姓名：</label>
+						<input type="text" id="name" name="name" placeholder="请输入真实姓名!" required autofocus class="form-control input-sm" value="Tom" />
+					</dd>
+					<dd>
+						<input type="radio" id="man" name="sex" value="1" checked/>男　
+						<input type="radio" id="woman" name="sex" value="2"/>女
+					</dd>
+					<dd>
+						<label>地址：</label>
+						<input type="text" id="address" name="address" placeholder="请输入地址!" required autofocus class="form-control input-sm" value="Tom" />
+					</dd>
+					<dd>
+						<label>电话号码：</label>
+						<input type="text" id="telephone" name="telephone" placeholder="请输入电话号码!" required autofocus class="form-control input-sm" value="Tom" />
+					</dd>
+					<dd>
+						<label>E-mail：</label>
+						<input type="text" id="email" name="email" placeholder="请输入电子邮箱!" required autofocus class="form-control input-sm" value="Tom" />
+					</dd>
+					<dd>
+						<label>信用卡号：</label>
+						<input type="text" id="creditcard" name="creditcard" placeholder="请输入信用客户!" required autofocus class="form-control input-sm" value="Tom" />
+					</dd>
+					<dd class="text-center">
+						<label class="text-danger" id="error">　</label>
+					</dd>
+					<dd class="btn-container">
+						<input disabled id="update" type="button" onclick="updateInfo()" value="提 交" class="btn btn-primary btn-sm" />
+						<input type="button" onclick="backInfo()" value="还 原" class="btn btn-success btn-sm" />
+					</dd>
+				</dl>
+			</form>
+		</section>
+	</body>
+	<script type="text/javascript">
+		function checkUsername() {
+			var username=$('#username').val();
+			$.post("/VIPCardMS/user/checkUsername",{username:username},function(data){
+				if(data=='true'){
+					$('#update').attr("disabled",false);
+					$('#error').text("用户名可用");
+				}else{
+					$('#update').attr("disabled",true);
+					$('#error').text(data);
+				}
+			},"text");
+		}
+		function loadInfo(){
+			$.post("/VIPCardMS/user/getInfo",function(data){
+				$('#username').val(data.username);
+				$('#name').val(data.name);
+				if(data.sex==1){
+					$("#man")[0].checked=true;
+				}else{
+					$("#woman")[0].checked=true;
+				}
+				$('input[name="sex"]').val();
+				$('#address').val(data.address);
+				$('#telephone').val(data.telephone);
+				$('#email').val(data.email);
+				$('#creditcard').val(data.creditcard);
+			},"json");
+		}
+		function backInfo() {
+			loadInfo();
+			$('#error').text("还原成功！");
+		}
+		function updateInfo(){
+			var username=$('#username').val();
+			var name=$('#name').val();
+			var sex;
+			if($("#man")[0].checked){
+				sex=1;
+			}else{
+				sex=2;
+			}
+			var address=$('#address').val();
+			var telephone=$('#telephone').val();
+			var email=$('#email').val();
+			var creditcard=$('#creditcard').val();
+			$.post("/VIPCardMS/user/updateInfo",{username:username,name:name,sex:sex,address:address,telephone:telephone,email:email,creditcard:creditcard},function(data){
+				$('#error').text(data);
+			},"text");
+		}
+		$(function(){
+			loadInfo();
+		});	
+	</script>
+</html>

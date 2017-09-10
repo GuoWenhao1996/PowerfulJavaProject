@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css"
+	href="/VIPCardMS/css/bootstrap.min.css" />
+<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="/VIPCardMS/js/bootstrap.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<!--<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/edit.css"/>-->
+<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/listcss.css" />
+</head>
+
+<body>
+	<header>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="javascript:history.go(-1);">临时卡</a></li>
+		</ul>
+	</header>
+	<section>
+		<form>
+			<table class="table table-bordered table-hover">
+				<tr>
+					<th>序号</th>
+					<th>用户名</th>
+					<th>会员卡号</th>
+					<th>积分</th>
+					<th>余额</th>
+					<th>领卡时间</th>
+					<th>销卡时间</th>
+					<th>会员等级</th>
+				</tr>
+			</table>
+		</form>
+	</section>
+</body>
+<script type="text/javascript">
+	function parseNum(num) {
+		if (num < 10) {
+			return "0" + num;
+		}
+		return num;
+	}
+
+	function getDate(obj) {
+		return 1900 + obj.year + "-" + parseNum(obj.month + 1) + "-"
+				+ parseNum(obj.date) + " " + parseNum(obj.hours) + ":"
+				+ parseNum(obj.minutes) + ":" + parseNum(obj.seconds);
+	}
+
+	$(function() {
+		$.post('/VIPCardMS/back/queryUserByType?cardtype=1', function(data) {
+			$('table tr:not(:eq(0))').remove();
+			for (var i = 0; i < data.length; i++) {
+				$('table').append(
+						'<tr><td>' + (i + 1) + '</td><td>' + data[i].username
+								+ '</td><td>' + data[i].cardid + '</td><td>'
+								+ data[i].count + '</td><td>' + data[i].money
+								+ '</td><td>' + getDate(data[i].jointime)
+								+ '</td><td>' + (data[i].leavetime==null?" ":getDate(data[i].leavetime))
+								+ '</td><td>临时卡</td></tr>');
+			}
+		}, 'json');
+	});
+</script>
+</html>

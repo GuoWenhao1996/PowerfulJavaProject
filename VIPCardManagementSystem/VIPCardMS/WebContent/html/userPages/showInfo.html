@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/bootstrap.min.css" />
+		<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/VIPCardMS/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/edit.css"/>-->
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/listcss.css" />
+	</head>
+
+	<body>
+		<header>
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="javascript:history.go(-1);">查看个人信息</a></li>
+			</ul>
+		</header>
+		<section>
+			<article>
+				<h1>
+					您的余额：<label class="text-danger" id="money"></label>元
+					会员等级：<label class="text-success" id="type"></label><br/>
+					您的积分：<label class="text-danger" id="count"></label>分
+				</h1>
+			</article>
+			<form>
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th width="30%">用户名</th>
+						<td width="70%" id="username"></td>
+					</tr>
+					<tr>
+						<th>真实姓名</th>
+						<td id="name"></td>
+					</tr>
+					<tr>
+						<th>性别</th>
+						<td id="sex"></td>
+					</tr>
+					<tr>
+						<th>地址</th>
+						<td id="address"></td>
+					</tr>
+					<tr>
+						<th>电话号码</th>
+						<td id="telephone"></td>
+					</tr>
+					<tr>
+						<th>E-mail</th>
+						<td id="email"></td>
+					</tr>
+					<tr>
+						<th>信用卡号码</th>
+						<td id="creditcard"></td>
+					</tr>
+				</table>
+			</form>
+		</section>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			$.post("/VIPCardMS/user/getInfo",function(data){
+				$('#money').text(data.money);
+				var type;
+				if(data.cardtype==1){
+					type="临时卡";
+				}else if(data.cardtype==2){
+					type="青铜会员";
+				}
+				else if(data.cardtype==3){
+					type="白银会员";
+				}
+				else if(data.cardtype==4){
+					type="黄金会员";
+				}
+				else if(data.cardtype==5){
+					type="铂金会员";
+				}
+				else if(data.cardtype==6){
+					type="钻石会员";
+				}
+				$('#type').text(type);
+				$('#count').text(data.count);
+				$('#username').text(data.username);
+				$('#name').text(data.name);
+				$('#sex').text(data.sex==1?'男':'女');
+				$('#address').text(data.address);
+				$('#telephone').text(data.telephone);
+				$('#email').text(data.email);
+				$('#creditcard').text(data.creditcard);
+			},"json");
+		});	
+	</script>
+</html>

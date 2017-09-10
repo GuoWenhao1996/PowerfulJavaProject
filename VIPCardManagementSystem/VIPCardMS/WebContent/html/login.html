@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>登录到商旅会员卡系统</title>
+		<link rel="icon" href="/VIPCardMS/img/logo.png" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/bootstrap.min.css" />
+		<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/VIPCardMS/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.errLabel {
+				font-size: 10px;
+				color: red;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #7bbfea;">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<form style="background-color: #afdfe4; width: 600px; height: 350px; margin: 130px auto 0px; border-radius: 20px;">
+						<div class="col-md-6 col-md-offset-3" style="margin-top: 10px; height: 70px">
+							<h3 class="text-center">欢迎使用商旅会员卡系统</h3>
+							<h4 id="error" class="text-danger text-center">
+								
+							</h4>
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 15px; font-size: 16px;">
+							<label>用户名：</label>
+							<input class="form-control" type="text" name="username" id="username" value="" placeholder="请输入字母数字或下划线组成的用户名" required autofocus/>
+						</div>
+						<div class="col-md-6 col-md-offset-3" class="form-group" style="margin-top: 20px; font-size: 16px;">
+							<label>密码：</label>
+							<input class="form-control" type="password" name="password" id="password" value="" placeholder="请输入密码" required/>
+						</div>
+						<div class="col-md-6 col-md-offset-3" style="margin-top: 35px; font-size: 16px;">
+							<input onclick="checkLogin()" class="btn btn-primary" type="button" value="登录" id="login" name="login" style="margin: 0px 20px;" />
+							<a href="/VIPCardMS/html/reg.html">没有账号？注册一个！</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function checkLogin() {			
+			var user=$('input[name="username"]').val();
+			var pwd=$('input[name="password"]').val();
+			$.post("/VIPCardMS/user/login",{username:user,password:pwd},function(data){
+				if(data=='true'){
+					if ($('#username').val() == 'admin') {
+						location.href = "/VIPCardMS/html/index.html";
+					} else {
+						location.href = "/VIPCardMS/html/user_index.html";
+					}
+				}else{
+					$('#error').text(data);
+				}
+			},"text");
+		}
+	</script>
+
+</html>

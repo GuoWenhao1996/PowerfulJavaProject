@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css"
+	href="/VIPCardMS/css/bootstrap.min.css" />
+<script src="/VIPCardMS/js/jquery-1.11.0.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="/VIPCardMS/js/bootstrap.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<!--<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/edit.css"/>-->
+<link rel="stylesheet" type="text/css" href="/VIPCardMS/css/listcss.css" />
+</head>
+
+<body>
+	<header>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="javascript:history.go(-1);">积分排行榜</a></li>
+		</ul>
+	</header>
+	<section>
+		<form>
+			<table class="table table-bordered table-hover">
+				<tr>
+					<th>序号</th>
+					<th>用户名</th>
+					<th>积分</th>
+				</tr>
+			</table>
+		</form>
+	</section>
+</body>
+<script type="text/javascript">
+	function parseNum(num) {
+		if (num < 10) {
+			return "0" + num;
+		}
+		return num;
+	}
+
+	function getDate(obj) {
+		return 1900 + obj.year + "-" + parseNum(obj.month + 1) + "-"
+				+ parseNum(obj.date) + " " + parseNum(obj.hours) + ":"
+				+ parseNum(obj.minutes) + ":" + parseNum(obj.seconds);
+	}
+	function loadUser(){
+		$.post('/VIPCardMS/back/queryUserByType?cardtype=0', function(data) {
+			$('table tr:not(:eq(0))').remove();
+			for (var i = 0; i < 10; i++) {
+				$('table').append(
+						'<tr><td>' + (i + 1) + '</td><td>' 
+								+ data[i].username+ '</td><td>' 
+								+ data[i].count + '</td></tr>');
+			}
+		}, 'json');
+	}
+
+	$(function() {
+		loadUser();
+	});
+	
+</script>
+</html>
