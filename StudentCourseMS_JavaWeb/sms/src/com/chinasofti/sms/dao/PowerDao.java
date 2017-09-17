@@ -1,9 +1,4 @@
 package com.chinasofti.sms.dao;
-/**
- * 权限dao层
- * @author guowh
- *
- */
 
 import java.sql.Connection;
 import java.sql.SQLException;

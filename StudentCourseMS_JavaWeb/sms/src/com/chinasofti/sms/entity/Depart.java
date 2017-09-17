@@ -1,16 +1,22 @@
 package com.chinasofti.sms.entity;
 
+import java.io.Serializable;
+
 /**
- * 系别实体类
+ * 学院实体类
  * 
  * @author guowh
  *
  */
-public class Depart {
+public class Depart implements Serializable {
 
-	private int dep_id;// 系别id
-	private String dep_no;// 系编号
-	private String dep_name;// 系别名
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int dep_id;// 学院id
+	private String dep_no;// 学院编号
+	private String dep_name;// 学院名
 
 	public int getDep_id() {
 		return dep_id;

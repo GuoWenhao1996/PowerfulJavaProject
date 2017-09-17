@@ -13,6 +13,38 @@
 		.panel-body,.accordion-body{
 			padding: 0px;
 		}
+		.panel-header{
+			height: 40px;
+		}
+		.panel-title{
+			height:40px;
+			line-height:40px;
+		}
+
+		#logo{
+			margin-top:-20px;
+			border: none;
+			position: absolute;
+			left: 50px;
+			width: 98px;
+		}
+		#logout{
+			margin-top:-20px;
+			border: none;
+			position: absolute;
+			right: 5px;
+			background: #fff;
+		}
+		#logout:hover{
+			background: #8CC7E5;
+		}
+		#logout span{
+			width: 98px;
+			height:98px;
+			margin: -48px 0px 0px -2px;
+			padding: 0px;
+			border: none;
+		}
 		#menu ul{
 			list-style:none;
 			padding-left: 0px;
@@ -31,9 +63,15 @@
 </head>
 <body class="easyui-layout">   
     <div data-options="region:'north'" style="height:100px;">
-    	<a href="/sms/user/logout.do">退出</a>  
+    	<h1 align="center" style="font-size: 30px;color: #0081C2;">
+    		<img id="logo" alt="logo" src="/sms/img/main.png">	
+    		中 软 国 际<sup>&reg;</sup>学 生 管 理 系 统&trade;<sub><small>书山有路勤为径-学海无涯苦作舟</small></sub>
+    		<a id="logout" href="/sms/user/logout.do" class="easyui-linkbutton" data-options="iconCls:'icon-logout',width:98,height:98"></a>
+    	</h1> 
     </div>   
-    <div data-options="region:'south'" style="height:75px;"></div>   
+    <div data-options="region:'south'" style="height:60px;">
+    	<p align="center" style="font-size: 16px;color: #0081C2;">Copyright&copy;2017-2017&nbsp;&nbsp;<a href="http://www.gwhcool.cn:8080" style="font-size: 16px;color: #0081C2;">郭丶丶gwhcool.cn</a>&nbsp;版权所有</p>
+    </div>   
     <div data-options="region:'west',title:'导航栏',iconCls:'icon-nav'" style="width:200px;">
 		<div id="menu" class="easyui-accordion" data-options="fit:true">   
 		    <c:forEach items="${menus}" var="menu">
@@ -48,10 +86,9 @@
 		</div> 
     </div>   
     <div data-options="region:'center'" style="background:#eee;padding: 0px">
-    	<iframe name="centerFrame" style="width: 100%; height: 100%;border: none">
+    	<iframe name="centerFrame" style="width: 100%; height: 99%;border: none;">
     	</iframe>
     </div>
-</body>
 	<script type="text/javascript" src="/sms/easyui/jquery.min.js"></script>   
 	<script type="text/javascript" src="/sms/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="/sms/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
@@ -69,4 +106,5 @@
 			$(this).css('color','#000');
 		});
 	</script>
+</body>
 </html>

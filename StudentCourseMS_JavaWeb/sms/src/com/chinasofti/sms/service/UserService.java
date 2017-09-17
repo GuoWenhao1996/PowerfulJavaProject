@@ -41,5 +41,14 @@ public class UserService {
 	public Login getUserByUsername(String username) {
 		return userDao.getUserByUsername(username);
 	}
+	/**
+	 * 修改密码
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public boolean updatepassword(String username, String password) {
+		return  userDao.updatepassword(username,password);
+	}
 
 }

@@ -14,7 +14,6 @@
 		<ul id="tt"></ul>
 		<a id="btn" href="javascript:updatePower()" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">提交修改</a>
 	</div>
-</body>
 	<script type="text/javascript" src="/sms/easyui/jquery.min.js"></script>   
 	<script type="text/javascript" src="/sms/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="/sms/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
@@ -28,7 +27,6 @@
 				mids[i]=nodes[i].id;
 			}
 			var midStr=mids.join(',');
-			alert(midStr);
 			$.post('/sms/power/updatePower.do',{rid:rid,midStr:midStr},function(data){
 				if(data=='true'){
 					$('#win').window('close');
@@ -39,7 +37,8 @@
 			},'text');
 		}
 	
-		$('#win').window({    
+		$('#win').window({
+			title:'权限修改-打勾代表拥有此权限',
 		    width:600,    
 		    height:400,    
 		    modal:true,
@@ -54,7 +53,7 @@
 		    rownumbers:true,
 		    singleSelect:true,
 		    toolbar: [{
-				iconCls: 'icon-edit',
+				iconCls: 'icon-my-edit',
 				text:'修改权限',
 				handler: function(){
 					var row=$('#dg').datagrid('getSelected');
@@ -78,4 +77,5 @@
 		    ]]    
 		});
 	</script>
+</body>
 </html>

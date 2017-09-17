@@ -39,13 +39,64 @@ public class UserController extends BaseController {
 			req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
 		} else {
 			Login user = userService.getUserByUsername(username);
-			req.getSession().setAttribute("user", user);
-			List<Menu> menus = menuService.queryAllMenuByUserType(user.getUsertype());
-			req.setAttribute("menus", menus);
-			req.getRequestDispatcher("/view/index.jsp").forward(req, resp);
+			if (user.getState() == 0) {
+				req.setAttribute("loginInfo", "此账号暂停使用！");
+				req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
+			} else {
+				req.getSession().setAttribute("user", user);
+				if (user.getState() == -1) {
+					req.getRequestDispatcher("/view/updatepassword.jsp").forward(req, resp);
+				} else {
+					List<Menu> menus = menuService.queryAllMenuByUserType(user.getUsertype());
+					req.setAttribute("menus", menus);
+					req.getRequestDispatcher("/view/index.jsp").forward(req, resp);
+				}
+			}
 		}
 	}
 
+	/**
+	 * 修改密码
+	 * 
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void updatepassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String username = ((Login)req.getSession().getAttribute("user")).getUsername();
+		String password = req.getParameter("password");
+		boolean result = userService.updatepassword(username, password);
+		if (!result) {
+			resp.setCharacterEncoding("utf-8");
+			resp.getWriter().write("服务器错误，请稍后再试！");
+		} else {
+			req.getSession().invalidate();
+			resp.getWriter().write("true");
+		}
+	}
+
+	/**
+	 * 检查旧密码
+	 * 
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void checkPassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String username = ((Login)req.getSession().getAttribute("user")).getUsername();
+		String password = req.getParameter("oldpassword");
+		boolean result = userService.login(username, password);
+		resp.setCharacterEncoding("utf-8");
+		if (!result) {
+			resp.getWriter().write("原密码不正确！");
+		} else {
+			resp.getWriter().write("true");
+		}
+	}
+
+	
 	/**
 	 * 注销
 	 * 

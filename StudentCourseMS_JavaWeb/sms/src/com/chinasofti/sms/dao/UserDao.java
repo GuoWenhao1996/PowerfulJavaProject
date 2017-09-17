@@ -37,4 +37,28 @@ public class UserDao {
 		}
 		return null;
 	}
+
+	/**
+	 * 修改密码
+	 * 
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public boolean updatepassword(String username, String password) {
+		Connection con = DBUtil.getConnection();
+		QueryRunner qr = new QueryRunner();
+		try {
+			int result = qr.update(con, "update tb_login set password=?,state=1 where username=?", password, username);
+			if (result == 1) {
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeConnection(null, null, con);
+		}
+		return false;
+	}
 }

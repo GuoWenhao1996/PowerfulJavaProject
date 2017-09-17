@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chinasofti.sms.dao.PowerDao;
-import com.chinasofti.sms.entity.Menu;
 import com.chinasofti.sms.entity.MenuVo;
 
 /**

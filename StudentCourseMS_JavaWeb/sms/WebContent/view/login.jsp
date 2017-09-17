@@ -53,10 +53,10 @@
 				</div>
 			</div>
 		</div>
+		<script src="/sms/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/sms/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/sms/js/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/sms/js/yzm.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/sms/js/checkForm.js" type="text/javascript" charset="utf-8"></script>
 	</body>
-	<script src="/sms/js/jquery-1.11.0.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/sms/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/sms/js/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/sms/js/yzm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/sms/js/checkForm.js" type="text/javascript" charset="utf-8"></script>
 </html>

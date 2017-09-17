@@ -1,17 +1,21 @@
 package com.chinasofti.sms.entity;
 
+import java.io.Serializable;
+
 /**
  * 专业实体类
  * 
  * @author guowh
  *
  */
-public class Profess {
+public class Profess implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int pro_id;// 专业id
 	private String pro_no;// 专业号
 	private String pro_name;// 专业名称
 	private int pro_deptid;// 专业所属系别号
-	private char pro_state;// 专业开设状态
+	private int pro_state;// 专业开设状态
 
 	public int getPro_id() {
 		return pro_id;
@@ -45,18 +49,18 @@ public class Profess {
 		this.pro_deptid = pro_deptid;
 	}
 
-	public char getPro_state() {
+	public int getPro_state() {
 		return pro_state;
 	}
 
-	public void setPro_state(char pro_state) {
+	public void setPro_state(int pro_state) {
 		this.pro_state = pro_state;
 	}
 
 	public Profess() {
 	}
 
-	public Profess(int pro_id, String pro_no, String pro_name, int pro_deptid, char pro_state) {
+	public Profess(int pro_id, String pro_no, String pro_name, int pro_deptid, int pro_state) {
 		super();
 		this.pro_id = pro_id;
 		this.pro_no = pro_no;

@@ -48,6 +48,26 @@ public class MenuService {
 	}
 
 	/**
+	 * 查询所有父级菜单
+	 * 
+	 * @return
+	 */
+	public List<Menu> queryAllParentMenus() {
+		List<Menu> menus = menudao.queryAllMenus("%%");
+		if (menus == null || menus.size() == 0) {
+			return null;
+		}
+		// 找到主菜单
+		List<Menu> parentMenus = new ArrayList<>();
+		for (Menu menu : menus) {
+			if (menu.getParentid() == 0) {
+				parentMenus.add(menu);
+			}
+		}
+		return parentMenus;
+	}
+
+	/**
 	 * 为easyUI分页提供total和rows
 	 * 
 	 * @param pageNum
@@ -66,5 +86,45 @@ public class MenuService {
 		map.put("total", total);
 		map.put("rows", rows);
 		return map;
+	}
+
+	/**
+	 * 添加菜单
+	 * 
+	 * @param name
+	 * @param url
+	 * @param pid
+	 * @return
+	 */
+	public boolean addMenu(String name, String url, String pid) {
+		return menudao.addMenu(name, url, Integer.parseInt(pid));
+	}
+
+	/**
+	 * 删除菜单
+	 * 
+	 * @param mids
+	 * @return
+	 */
+	public boolean deleteMenu(String mids) {
+		String midStrs[] = mids.split(",");
+		int[] mid = new int[midStrs.length];
+		for (int i = 0; i < mid.length; i++) {
+			mid[i] = Integer.parseInt(midStrs[i]);
+		}
+		return menudao.deleteMenu(mid);
+	}
+
+	/**
+	 * 修改菜单
+	 * 
+	 * @param mid
+	 * @param name
+	 * @param url
+	 * @param pid
+	 * @return
+	 */
+	public boolean editMenu(String mid, String name, String url, String pid) {
+		return menudao.editMenu(Integer.parseInt(mid), name, url, Integer.parseInt(pid));
 	}
 }
